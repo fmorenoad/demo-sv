@@ -1,0 +1,15 @@
+# Dependencias y builds
+node_modules/
+dist/
+*.local
+.DS_Store
+
+# Archivos temporales de Office
+~$*.docx
+*.tmp
+
+# Documentos comerciales y material confidencial (no publicar en un repo público)
+*.docx
+propuesta-redesign/
+conversacion-bitacora.md
+generar_propuesta_comercial.py
