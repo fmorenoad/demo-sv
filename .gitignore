@@ -6,10 +6,7 @@ dist/
 
 # Archivos temporales de Office
 ~$*.docx
-*.tmp
 
-# Documentos comerciales y material confidencial (no publicar en un repo público)
+# Material comercial y bitácora interna: viven fuera de este repositorio
 *.docx
-propuesta-redesign/
 conversacion-bitacora.md
-generar_propuesta_comercial.py
