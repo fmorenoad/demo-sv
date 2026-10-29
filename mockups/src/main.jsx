@@ -4,6 +4,7 @@ import App from './App.jsx'
 import './styles.css'
 import './site-header.css'
 import './site-footer.css'
+import './home.css'
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
