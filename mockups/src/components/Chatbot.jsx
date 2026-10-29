@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { href } from '../router.jsx'
 import { USER, TRANSITOS, clp } from '../data/mock.js'
 
@@ -6,8 +6,26 @@ import { USER, TRANSITOS, clp } from '../data/mock.js'
 // defaultOpen: abre la ventana; embedded: lo muestra sin posición fija.
 export default function Chatbot({ session = false, defaultOpen = false, embedded = false }) {
   const [open, setOpen] = useState(defaultOpen)
+  const panelId = useId()
+  const fabRef = useRef(null)
+  const closeRef = useRef(null)
   const pendientes = TRANSITOS.filter((t) => t.estado === 'No facturado')
   const deuda = pendientes.reduce((a, t) => a + t.monto, 0)
+
+  const closeChat = () => {
+    setOpen(false)
+    requestAnimationFrame(() => fabRef.current?.focus())
+  }
+
+  useEffect(() => {
+    if (!open || embedded) return undefined
+    closeRef.current?.focus()
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') closeChat()
+    }
+    window.addEventListener('keydown', closeOnEscape)
+    return () => window.removeEventListener('keydown', closeOnEscape)
+  }, [open, embedded])
 
   const publicScript = (
     <>
@@ -16,10 +34,10 @@ export default function Chatbot({ session = false, defaultOpen = false, embedded
         tránsitos o pagar, te pediré iniciar sesión.
       </div>
       <div className="quick">
-        <button>¿Cuánto cuesta Talca–Chillán?</button>
-        <button>¿Hay trabajos hoy?</button>
-        <button>Arrendar TAG</button>
-        <button>Pasé sin TAG</button>
+        <span>¿Cuánto cuesta Talca–Chillán?</span>
+        <span>¿Hay trabajos hoy?</span>
+        <span>Arrendar TAG</span>
+        <span>Pasé sin TAG</span>
       </div>
       <div className="msg user">¿Cuánto cuesta ir de Talca a Chillán en auto?</div>
       <div className="msg bot">
@@ -43,9 +61,9 @@ export default function Chatbot({ session = false, defaultOpen = false, embedded
         <span className="src">Datos del convenio {USER.convenio} · act. hoy 12:40</span>
       </div>
       <div className="quick">
-        <button>Explícame el cobro del 21-10</button>
-        <button>Pagar lo pendiente</button>
-        <button>Estado de mi requerimiento</button>
+        <span>Explícame el cobro del 21-10</span>
+        <span>Pagar lo pendiente</span>
+        <span>Estado de mi requerimiento</span>
       </div>
       <div className="msg user">Explícame el cobro del 21-10</div>
       <div className="msg bot">
@@ -62,20 +80,24 @@ export default function Chatbot({ session = false, defaultOpen = false, embedded
   )
 
   const windowEl = (
-    <div className="chat-window" role="dialog" aria-label="Asistente virtual Survías">
+    <div id={panelId} className={'chat-window' + (embedded ? ' embedded' : '')} role={embedded ? 'region' : 'dialog'} aria-label="Asistente virtual Survías">
       <div className="chat-head">
-        <div className="av">S</div>
+        <div className="av" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="7" width="18" height="12" rx="4" /><path d="M12 7V4M9 4h6" /><circle cx="9" cy="13" r="1" fill="currentColor" stroke="none" /><circle cx="15" cy="13" r="1" fill="currentColor" stroke="none" /><path d="M9.5 16.5h5" /></svg>
+        </div>
         <div className="meta">
           <strong>Asistente Survías</strong>
-          <small><span className="dot ok" /> En línea · respuestas con fuente{session ? ' · sesión verificada' : ''}</small>
+          <small><span className="chat-demo">Demo</span><span>Respuestas con fuente{session ? ' · sesión verificada' : ''}</span></small>
         </div>
+        {!embedded && <button ref={closeRef} type="button" className="chat-close" onClick={closeChat} aria-label="Cerrar asistente virtual"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg></button>}
       </div>
       <div className="chat-body">{session ? privateScript : publicScript}</div>
       <div className="chat-input">
-        <input className="input" placeholder="Escribe tu consulta…" />
-        <button className="btn primary sm">Enviar</button>
+        <label className="sr-only" htmlFor={`${panelId}-input`}>Escribe tu consulta</label>
+        <input id={`${panelId}-input`} className="input" placeholder="Escribe tu consulta…" readOnly aria-describedby={`${panelId}-note`} />
+        <button type="button" className="btn primary sm" disabled>Enviar</button>
       </div>
-      <div className="chat-note">No pedimos claves, códigos ni datos de tarjeta por el chat.</div>
+      <div id={`${panelId}-note`} className="chat-note"><strong>Vista de demostración; no envía mensajes.</strong> No pedimos claves, códigos ni datos de tarjeta por el chat.</div>
     </div>
   )
 
@@ -87,9 +109,11 @@ export default function Chatbot({ session = false, defaultOpen = false, embedded
         <div className="chat-float">{windowEl}</div>
       )}
       <button
+        ref={fabRef}
         className="chat-fab"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
+        aria-controls={panelId}
         aria-label={open ? 'Cerrar asistente virtual' : 'Abrir asistente virtual'}
         title={open ? 'Cerrar asistente' : 'Asistente virtual'}
       >
