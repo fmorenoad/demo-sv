@@ -7,7 +7,7 @@ Alcance: recorrido con una cuenta de prueba (convenio RNUT, 3 vehículos, sin de
 
 ## 1. Resumen ejecutivo
 
-El portal es una aplicación Laravel clásica (PHP 7.4, Blade, jQuery, Bootstrap 5) con seis módulos de consulta orientados al titular de un convenio de TAG. Funciona y es estable, pero es esencialmente de **solo lectura**: el usuario puede ver tránsitos, descargar boletas y cambiar su contraseña, y nada más. No puede editar sus datos, administrar vehículos, ni pagar desde el portal cuando no hay deuda visible.
+El portal es una aplicación Laravel clásica (PHP 7.4, Blade, jQuery, Bootstrap 5) con seis módulos de consulta orientados al titular de un convenio de TAG. Funciona y es estable, pero es esencialmente de **consulta**: el usuario puede ver tránsitos, descargar boletas, pagar su deuda mediante el flujo aparte "Pago fácil" y cambiar su contraseña. No puede facturar tránsitos, repactar, editar sus datos ni administrar vehículos desde el portal. El flujo de pago no se pudo recorrer porque la cuenta de prueba no tenía deuda.
 
 Los hallazgos más relevantes:
 
@@ -132,7 +132,7 @@ Ordenadas por impacto para el cliente y esfuerzo estimado.
 ### Medianas (semanas)
 - **Dashboard con gráficos**: gasto mensual, tránsitos por pórtico y por vehículo. Chart.js ya está cargado.
 - **Gestión de vehículos**: solicitar alta/baja de patente, ver estado del TAG, reemplazo por pérdida o robo.
-- **Pago en línea visible siempre** (Webpay/Transbank, Khipu, MACH), con historial de pagos y comprobante descargable.
+- **Pago en línea integrado a la Oficina Virtual** (hoy existe como flujo aparte, "Pago fácil"), siempre visible, con historial de pagos y comprobante descargable.
 - **Suscripciones reales**: activar/desactivar boleta por email, alertas de deuda, alertas de tránsito por SMS/WhatsApp/email.
 - **Pago automático (PAC/PAT)** con tarjeta o cuenta inscrita.
 - **Notificaciones push / PWA** para instalar la oficina virtual como app en el teléfono.
