@@ -2,6 +2,14 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import './styles.css'
+import './site-header.css'
+import './site-footer.css'
+import './choice-select.css'
+import './home.css'
+import './chatbot.css'
+import './tarifas.css'
+import './estado-ruta.css'
+import './sin-tag.css'
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>

@@ -1,0 +1,88 @@
+.ov-account {
+  --account-border: #e2e8ed;
+  min-width: 0;
+  color: var(--ink);
+  background: #fff;
+}
+.ov-account .account-heading { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
+.ov-account .account-heading-icon { display: grid; place-items: center; flex: none; width: 62px; height: 62px; border: 1px solid var(--account-border); border-radius: 16px; background: #fff; box-shadow: 0 5px 18px #17212b06; }
+.ov-account .account-heading-icon .service-icon { width: 37px; height: 37px; }
+.ov-account .account-heading h1 { margin: 0; color: var(--ink); font-size: clamp(28px, 3vw, 36px); font-weight: 800; line-height: 1.2; letter-spacing: -.045em; }
+.ov-account .account-heading p { margin: 7px 0 0; color: #6b7783; font-size: 14px; line-height: 1.7; }
+.ov-account .account-columns { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; align-items: start; }
+.ov-account .account-stack { display: grid; gap: 22px; min-width: 0; }
+.ov-account .card { min-width: 0; border: 1px solid var(--account-border); border-radius: 14px; background: #fff; box-shadow: 0 8px 30px #17212b08, 0 2px 5px #17212b04; overflow: hidden; }
+.ov-account .card .card-head { display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center; gap: 12px; min-height: 70px; padding: 19px 22px; border-bottom: 1px solid #edf0f3; background: #fff; }
+.ov-account .card .card-head h3 { color: #34424e; font-size: 16px; font-weight: 800; line-height: 1.5; letter-spacing: -.02em; }
+.ov-account .account-card-title { display: inline-flex; align-items: center; gap: 10px; }
+.ov-account .account-card-title .service-icon { width: 28px; height: 28px; }
+.ov-account .card .card-body { padding: 23px 22px; }
+.ov-account .card .card-body.tight { padding: 0 22px; }
+.ov-account .account-fields { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px 16px; }
+.ov-account .field { min-width: 0; margin: 0; }
+.ov-account .field label { margin-bottom: 8px; color: #4d5d6b; font-size: 13px; font-weight: 800; }
+.ov-account .input { width: 100%; min-width: 0; min-height: 44px; padding: 11px 12px; border: 1px solid #dce3e9; border-radius: 7px; color: #3e4e5b; background: #fff; font: inherit; font-size: 14px; box-shadow: 0 1px 2px #17212b03; }
+.ov-account .input:disabled { border-color: #e9edf0; color: #687783; background: #fff; cursor: not-allowed; opacity: 1; -webkit-text-fill-color: #687783; }
+.ov-account .input:focus-visible { outline: 2px solid #d90000; outline-offset: 3px; border-color: #d90000; }
+.ov-account .field .xsmall { color: #75838e; font-size: 12px; line-height: 1.7; }
+.ov-account .account-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 10px; margin-top: 24px; padding-top: 19px; border-top: 1px solid #f0f2f4; }
+.ov-account .btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 42px; padding: 11px 15px; border-radius: 7px; font: inherit; font-size: 13px; font-weight: 800; line-height: 1.6; }
+.ov-account .btn.primary { border: 1px solid #ff0000; color: #fff; background: #ff0000; box-shadow: 0 4px 10px #ff000014; }
+.ov-account .btn.primary:not(:disabled):hover { border-color: #d90000; background: #d90000; }
+.ov-account .btn:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; }
+.ov-account .btn.ghost { border: 1px solid #dce3e9; color: #485866; background: #fff; }
+.ov-account .btn.ghost:not(:disabled):hover { border-color: #c7d1d9; background: #fffafa; }
+.ov-account .btn .service-icon { width: 25px; height: 25px; }
+.ov-account .link { color: #db0000; font-size: 12px; font-weight: 800; line-height: 1.6; text-decoration: none; }
+.ov-account .link:hover { text-decoration: underline; text-underline-offset: 3px; }
+.ov-account .badge { padding: 4px 8px; border: 0; border-radius: 5px; font-size: 11px; font-weight: 800; white-space: nowrap; }
+.ov-account .account-session-list { margin: 0; padding: 0; list-style: none; }
+.ov-account .account-session-list li { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; align-items: center; gap: 5px 11px; padding: 20px 0; border-bottom: 1px solid #edf0f3; }
+.ov-account .account-session-list li:last-child { border-bottom: 0; }
+.ov-account .account-session-list .service-icon { grid-row: span 2; width: 28px; height: 28px; }
+.ov-account .account-session-device { min-width: 0; }
+.ov-account .account-session-device strong { display: block; color: #34424e; font-size: 13px; font-weight: 800; }
+.ov-account .account-session-device > span { display: block; margin-top: 4px; color: #778592; font-size: 12px; }
+.ov-account .account-session-time { grid-column: 2; grid-row: 2; color: #778592; font-size: 11px; }
+.ov-account .account-session-action { grid-column: 3; grid-row: 1 / span 2; }
+.ov-account .toggle-row { gap: 16px; padding: 0 0 20px; border-bottom: 1px solid #edf0f3; }
+.ov-account .toggle-label { color: #34424e; font-size: 13px; font-weight: 800; }
+.ov-account .toggle-row .xsmall { margin-top: 5px; color: #75838e; font-size: 12px; line-height: 1.8; }
+.ov-account .switch { width: 38px; height: 22px; }
+.ov-account .switch .knob { top: 3px; left: 3px; width: 16px; height: 16px; }
+.ov-account .switch.on .knob { left: 19px; }
+.ov-account .kv { align-items: center; flex-wrap: wrap; gap: 6px 12px; padding: 20px 0; border: 0; font-size: 13px; font-weight: 700; }
+.ov-account .account-factor { display: grid; gap: 7px; }
+.ov-account .kv .xsmall { color: #75838e; font-size: 12px; font-weight: 500; }
+.ov-account .account-divider { margin-top: 20px; border-top: 1px solid #edf0f3; }
+.ov-account .card-body > p.xsmall { margin: 0 !important; color: #75838e; font-size: 12px; line-height: 1.9; }
+.ov-account .account-privacy .card-body { padding-top: 4px; }
+.ov-account .account-privacy .btn { justify-content: flex-start; width: 100%; min-height: 68px; margin: 0; padding: 14px 0; border: 0; border-bottom: 1px solid #edf0f3; border-radius: 0; text-align: left; }
+.ov-account .account-privacy .btn span:not(.account-arrow) { min-width: 0; }
+.ov-account .account-privacy .btn.ghost:hover { color: #d90000; background: #fff; border-color: #edf0f3; }
+.ov-account .account-arrow { margin-left: auto; color: #98a4af; font-size: 22px; font-weight: 400; }
+.ov-account .account-privacy .card-body > p { padding-top: 16px; }
+.ov-account .account-security-note { display: flex; align-items: flex-start; gap: 13px; padding: 4px 7px; color: #6b7b88; }
+.ov-account .account-security-note .service-icon { width: 26px; height: 26px; }
+.ov-account .account-security-note p { margin: 0; padding-top: 3px; font-size: 12px; line-height: 1.9; }
+.ov-account .mock-note { margin-top: 28px; padding: 18px 0; color: #7b8791; background: #fff; font-size: 12px; line-height: 1.9; }
+.ov-account .modal .field { margin-bottom: 18px; }
+@media (min-width: 620px) {
+  .ov-account .account-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ov-account .account-session-list li { grid-template-columns: 28px minmax(0, 1fr) auto auto; gap: 12px; }
+  .ov-account .account-session-list .service-icon { grid-row: auto; }
+  .ov-account .account-session-time { grid-column: 3; grid-row: 1; }
+  .ov-account .account-session-action { grid-column: 4; grid-row: 1; }
+}
+@media (min-width: 1280px) {
+  .ov-account .account-columns { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+}
+@media (max-width: 389px) {
+  .ov-account .card .card-head { padding: 17px; }
+  .ov-account .card .card-body { padding: 20px 17px; }
+  .ov-account .card .card-body.tight { padding: 0 17px; }
+  .ov-account .account-heading { gap: 11px; }
+  .ov-account .account-heading-icon { width: 49px; height: 49px; border-radius: 12px; }
+  .ov-account .account-heading-icon .service-icon { width: 31px; height: 31px; }
+  .ov-account .account-actions .btn { flex: 1; }
+}

@@ -1,0 +1,45 @@
+.demo-app {
+  --section-hero-min-height: 680px;
+}
+
+.demo-app .site-footer {
+  margin-top: 28px;
+  padding: 34px 0 46px;
+  border-top: 1px solid #e3e7ea;
+  color: #17212b;
+  background: #fff;
+  font-family: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+}
+
+.demo-app .site-footer .foot-grid {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 26px;
+}
+
+.demo-app .site-footer .brand-logo {
+  width: 105px;
+  mix-blend-mode: multiply;
+}
+
+.demo-app .site-footer .eyebrow {
+  color: #ff0000;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .1em;
+}
+
+.demo-app .site-footer .muted { color: #66727d; }
+.demo-app .site-footer .foot-phone { color: #17212b; font-size: 20px; font-weight: 700; }
+.demo-app .site-footer .foot-links { gap: 8px; }
+.demo-app .site-footer .foot-links a { color: #303a43; font-size: 13px; }
+.demo-app .site-footer .foot-links a:hover { color: #ff0000; }
+.demo-app .site-footer a:focus-visible { outline-color: rgba(255, 0, 0, .35); }
+
+@media (min-width: 620px) {
+  .demo-app .site-footer .foot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 960px) {
+  .demo-app { --section-hero-min-height: 620px; }
+  .demo-app .site-footer .foot-grid { grid-template-columns: 1.2fr repeat(3, minmax(0, 1fr)); }
+}

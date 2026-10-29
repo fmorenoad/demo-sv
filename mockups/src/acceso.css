@@ -1,0 +1,107 @@
+.access-page {
+  --access-red: #ff0000;
+  --access-ink: #17212b;
+  --access-muted: #66727d;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--access-ink);
+  background: #173134;
+  font-family: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+}
+
+.access-page *, .access-page *::before, .access-page *::after { box-sizing: border-box; }
+.access-scene { position: absolute; z-index: -2; inset: 0; overflow: hidden; }
+.access-photo { width: 100%; height: 100%; object-fit: cover; object-position: 59% center; }
+.access-page::before { content: ''; position: absolute; z-index: -1; inset: 0; background: linear-gradient(180deg, rgba(9,32,37,.86) 0%, rgba(9,32,37,.64) 34%, rgba(9,32,37,.2) 65%, rgba(9,32,37,.38) 100%); }
+.access-container { display: grid; align-items: center; gap: 30px; width: min(calc(100% - 32px), 1440px); min-height: 760px; margin-inline: auto; padding-block: 42px; }
+.access-intro, .access-form-frame { min-width: 0; }
+.access-copy { max-width: 620px; color: #fff; }
+.access-eyebrow { margin-bottom: 18px; color: #e0e9ea; font-size: 12px; font-weight: 800; letter-spacing: .17em; text-transform: uppercase; }
+.access-copy h1 { margin: 0; color: #fff; font-size: clamp(36px, 7.5vw, 60px); line-height: 1.08; font-weight: 750; letter-spacing: -.045em; text-wrap: balance; }
+.access-lead { max-width: 490px; margin: 20px 0 0; color: #edf2f2; font-size: 16px; line-height: 1.8; }
+.access-benefits { display: grid; gap: 18px; margin: 30px 0 0; padding: 0; list-style: none; }
+.access-benefits li { display: flex; align-items: center; gap: 14px; max-width: 340px; color: #fff; font-size: 14px; font-weight: 600; line-height: 1.65; }
+.access-benefits .service-icon { flex: none; width: 34px; height: 34px; color: #e2e9eb; }
+.access-benefits .service-icon-accent { stroke: #ff6b6b; }
+.access-card { min-width: 0; padding: 26px 22px; border: 1px solid rgba(255,255,255,.82); border-radius: 16px; background: #fff; box-shadow: 0 20px 70px rgba(2,18,24,.22); }
+.access-card-mark { margin-bottom: 12px; }
+.access-card-mark .service-icon { width: 34px; height: 34px; color: #697680; }
+.access-card-mark .service-icon-accent { stroke: var(--access-red); }
+.access-card h2 { margin: 0; color: var(--access-ink); font-size: 28px; line-height: 1.2; font-weight: 800; letter-spacing: -.035em; }
+.access-form-intro { margin: 12px 0 24px; color: var(--access-muted); font-size: 13px; line-height: 1.75; }
+.access-page .field { margin-bottom: 18px; }
+.access-page .field > label { display: block; margin-bottom: 7px; color: #33414d; font-size: 13px; font-weight: 800; line-height: 1.5; }
+.access-page .input { width: 100%; min-width: 0; height: 48px; padding: 12px 13px; border: 1px solid #dce3e8; border-radius: 7px; color: var(--access-ink); background: #fafcfd; font: inherit; font-size: 14px; box-shadow: none; transition: border-color .2s, background .2s; }
+.access-page .input::placeholder { color: #7a8792; opacity: 1; }
+.access-page .input:hover { border-color: #bdc9d1; }
+.access-page .input:focus { border-color: #f44; background: #fff; }
+.access-page .input.code { text-align: center; letter-spacing: .35em; font-size: 21px; }
+.access-hint { margin-top: 6px; font-size: 11px; line-height: 1.65; }
+.access-page .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 7px; font: inherit; font-size: 13px; font-weight: 800; text-decoration: none; line-height: 1.5; transition: background .2s, border-color .2s, box-shadow .2s; }
+.access-page .btn.block { width: 100%; }
+.access-page .btn.primary { border-color: var(--access-red); color: #fff; background: var(--access-red); box-shadow: 0 6px 16px rgba(255,0,0,.1); }
+.access-page .btn.primary:hover { border-color: #d90000; background: #d90000; }
+.access-page .btn.ghost { border: 1px solid #dce3e8; color: #33414d; background: #fff; }
+.access-page .btn.ghost:hover { border-color: #ffadad; background: #fff8f8; }
+.access-page a:not(.btn) { color: #52616e; text-underline-offset: 3px; }
+.access-page a:not(.btn):hover { color: #d90000; }
+.access-page button:focus-visible, .access-page a:focus-visible, .access-page input:focus-visible { outline: 3px solid #e00000; outline-offset: 4px; }
+.access-page input[type=checkbox] { flex: none; width: 17px; height: 17px; accent-color: var(--access-red); }
+.access-fields > .small, .access-fields label.small { font-size: 12px; line-height: 1.7; }
+.access-fields > .small:has(a) { gap: 12px; flex-wrap: wrap; }
+.access-fields > .xsmall { padding-top: 16px; border-top: 1px solid #e8edf0; font-size: 11px; line-height: 1.75; }
+.access-page .alert { margin-bottom: 20px; border-radius: 8px; font-size: 13px; line-height: 1.7; }
+.access-page .mock-note { margin-top: 20px; padding-top: 16px; font-size: 11px; line-height: 1.7; }
+.access-page .steps { align-items: center; gap: 6px; margin-bottom: 24px; }
+.access-page .step { display: flex; align-items: center; gap: 6px; min-width: 0; color: #7a8792; font-size: 10px; font-weight: 700; line-height: 1.4; }
+.access-page .step .n { display: grid; place-items: center; flex: none; width: 24px; height: 24px; border: 1px solid #dce3e8; border-radius: 50%; background: #fff; font-size: 11px; }
+.access-page .step.active { color: #d90000; }
+.access-page .step.active .n { border-color: var(--access-red); color: #fff; background: var(--access-red); }
+.access-page .step.done { color: #315e49; }
+.access-page .step.done .n { border-color: #c7e3d5; color: #315e49; background: #eff9f3; }
+.access-page .steps > span > .sep { flex: 1; min-width: 5px; height: 1px; background: #e6ebef; }
+.access-register .access-card { padding-bottom: 28px; }
+
+.access-page.motion-ready .access-copy, .access-page.motion-ready .access-card { opacity: 0; transform: translateY(24px); transition: opacity .65s ease, transform .8s cubic-bezier(.22,1,.36,1); }
+.access-page.motion-ready .exits-above .access-copy, .access-page.motion-ready .exits-above .access-card { transform: translateY(-24px); }
+.access-page.motion-ready .is-visible .access-copy, .access-page.motion-ready .is-visible .access-card,
+.access-page.motion-ready .access-form-frame:focus-within .access-card { opacity: 1; transform: none; }
+.access-page.motion-ready .access-photo { transform: scale(1.07); transition: transform 1.6s cubic-bezier(.22,1,.36,1); }
+.access-page.motion-ready .is-visible .access-photo { transform: scale(1); }
+.access-page.motion-ready .access-benefits li { opacity: 0; transform: translateX(-12px); transition: opacity .5s ease, transform .65s ease; }
+.access-page.motion-ready .is-visible .access-benefits li { opacity: 1; transform: none; transition-delay: .12s; }
+.access-page.motion-ready .is-visible .access-benefits li:nth-child(2) { transition-delay: .2s; }
+.access-page.motion-ready .is-visible .access-benefits li:nth-child(3) { transition-delay: .28s; }
+
+@media (min-width: 620px) {
+  .access-container { width: min(calc(100% - 56px), 1440px); padding-block: 54px; }
+  .access-card { padding: 32px; }
+  .access-form-frame { width: min(100%, 520px); justify-self: center; }
+  .access-page .step { font-size: 12px; }
+}
+
+@media (min-width: 960px) {
+  .access-page::before { background: linear-gradient(90deg, rgba(8,29,34,.91) 0%, rgba(8,29,34,.74) 30%, rgba(8,29,34,.28) 62%, rgba(8,29,34,.13) 100%); }
+  .access-container { grid-template-columns: minmax(0,1fr) minmax(360px,440px); gap: clamp(40px,6vw,100px); min-height: 760px; padding-block: 50px; }
+  .access-intro { align-self: center; }
+  .access-form-frame { width: 100%; justify-self: end; }
+  .access-card { padding: 32px; }
+  .access-copy h1 { max-width: 580px; }
+  .access-lead { max-width: 420px; }
+  .access-benefits { gap: 22px; margin-top: 38px; }
+  .access-photo { object-position: 50% center; }
+}
+
+@media (min-width: 1280px) {
+  .access-container { width: min(calc(100% - 96px), 1440px); grid-template-columns: minmax(0,1fr) minmax(400px,460px); }
+  .access-card { padding: 36px; }
+  .access-copy h1 { font-size: 64px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .access-page.motion-ready .access-copy, .access-page.motion-ready .access-card,
+  .access-page.motion-ready .access-benefits li { opacity: 1; transform: none; transition: none; }
+  .access-page.motion-ready .access-photo { transform: none; transition: none; }
+  .access-page .input, .access-page .btn { transition: none; }
+}

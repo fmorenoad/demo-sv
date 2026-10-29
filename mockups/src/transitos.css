@@ -1,0 +1,96 @@
+.ov-transits {
+  --transits-border: #e2e8ed;
+  min-width: 0;
+  color: var(--ink);
+  background: #fff;
+}
+.ov-transits .transits-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 28px; }
+.ov-transits .transits-heading-icon { display: grid; place-items: center; flex: none; width: 62px; height: 62px; border: 1px solid var(--transits-border); border-radius: 16px; background: #fff; box-shadow: 0 5px 18px #17212b06; }
+.ov-transits .transits-heading-icon .service-icon { width: 37px; height: 37px; }
+.ov-transits .transits-heading-copy { flex: 1; min-width: min(100%, 260px); }
+.ov-transits .transits-heading h1 { margin: 0; color: var(--ink); font-size: clamp(30px, calc(4vw + 2px), 40px); font-weight: 800; line-height: 1.2; letter-spacing: -.045em; overflow-wrap: anywhere; }
+.ov-transits .transits-heading p { margin: 7px 0 0; color: #6b7783; font-size: 14px; line-height: 1.7; }
+.ov-transits .transits-export { display: flex; flex-wrap: wrap; gap: 10px; }
+.ov-transits .card { min-width: 0; border: 1px solid var(--transits-border); border-radius: 14px; background: #fff; box-shadow: 0 8px 30px #17212b08, 0 2px 5px #17212b04; overflow: hidden; }
+.ov-transits .card .card-head { min-height: 70px; padding: 19px 22px; border-bottom: 1px solid #edf0f3; background: #fff; }
+.ov-transits .card .card-head h3 { color: #34424e; font-size: 17px; font-weight: 800; line-height: 1.5; letter-spacing: -.02em; }
+.ov-transits .transits-card-title { display: inline-flex; align-items: center; gap: 10px; }
+.ov-transits .transits-card-title .service-icon { width: 28px; height: 28px; }
+.ov-transits .card .card-body { padding: 23px 22px; }
+.ov-transits .card .card-body.tight { padding: 0; }
+.ov-transits .transits-filters { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start; }
+.ov-transits .field { min-width: 0; margin: 0; }
+.ov-transits .field label { display: block; margin-bottom: 8px; color: #4d5d6b; font-size: 13px; font-weight: 800; }
+.ov-transits .input { width: 100%; min-width: 0; min-height: 44px; padding: 11px 12px; border: 1px solid #dce3e9; border-radius: 7px; color: #3e4e5b; background: #fff; font: inherit; font-size: 14px; box-shadow: 0 1px 2px #17212b03; }
+.ov-transits .seg { display: flex; flex-wrap: wrap; gap: 5px; padding: 0; border: 0; border-radius: 0; background: #fff; }
+.ov-transits .seg button { flex: 1 0 auto; min-height: 44px; padding: 10px 12px; border: 1px solid #e2e8ed; border-radius: 7px; color: #6b7783; background: #fff; font: inherit; font-size: 14px; font-weight: 700; }
+.ov-transits .seg button.on { border-color: #ffd4d4; color: #db0000; background: #fff5f5; box-shadow: none; }
+.ov-transits .seg button:not(.on):hover { border-color: #c7d1d9; color: #34424e; }
+.ov-transits .btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 44px; padding: 11px 15px; border-radius: 7px; font: inherit; font-size: 14px; font-weight: 800; line-height: 1.6; }
+.ov-transits .btn.ghost { border: 1px solid #dce3e9; color: #485866; background: #fff; }
+.ov-transits .btn.ghost:hover { border-color: #c7d1d9; background: #fffafa; }
+.ov-transits .btn.primary { border: 1px solid #ff0000; color: #fff; background: #ff0000; box-shadow: 0 4px 10px #ff000014; }
+.ov-transits .btn.primary:hover { border-color: #d90000; background: #d90000; }
+.ov-transits .btn .service-icon { width: 25px; height: 25px; }
+.ov-transits .btn:focus-visible,
+.ov-transits .seg button:focus-visible,
+.ov-transits .input:focus-visible,
+.ov-transits .table-scroll:focus-visible { outline: 2px solid #d90000; outline-offset: 3px; }
+.ov-transits .transits-metrics { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; margin: 22px 0; }
+.ov-transits .tile { display: flex; align-items: flex-start; gap: 15px; min-width: 0; padding: 23px 22px; border: 1px solid var(--transits-border); border-radius: 14px; background: #fff; box-shadow: 0 8px 30px #17212b06; }
+.ov-transits .tile > .service-icon { flex: none; width: 36px; height: 36px; }
+.ov-transits .tile > div { min-width: 0; }
+.ov-transits .tile .k { margin: 0 0 7px; color: #6b7783; font-size: 13px; font-weight: 700; }
+.ov-transits .tile .v { color: #34424e; font-size: 29px; font-weight: 800; line-height: 1.2; letter-spacing: -.04em; overflow-wrap: anywhere; }
+.ov-transits .tile .xsmall { margin-top: 7px; color: #778592; font-size: 12px; }
+.ov-transits .transits-columns { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; align-items: start; }
+.ov-transits .transits-stack { display: grid; gap: 22px; min-width: 0; }
+.ov-transits .table-scroll { max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-color: #cbd4dc #fff; }
+.ov-transits .table-scroll .table { min-width: 740px; }
+.ov-transits .table { width: 100%; margin: 0; border-collapse: collapse; font-size: 13px; }
+.ov-transits .table th { padding: 18px 15px; border-bottom: 1px solid #e7ecf0; color: #778592; background: #fff; font-size: 11px; font-weight: 800; letter-spacing: .025em; }
+.ov-transits .table td { padding: 17px 15px; border-bottom: 1px solid #edf0f3; color: #526371; line-height: 1.6; }
+.ov-transits .table tr:nth-child(even) td { background: #fff; }
+.ov-transits .table tbody tr:hover td { background: #fffafa; }
+.ov-transits .table strong { color: #34424e; font-weight: 800; }
+.ov-transits .table tfoot td { border-top: 1px solid #dce3e9; border-bottom: 0; background: #fff; }
+.ov-transits .table .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ov-transits .badge { padding: 5px 8px; border: 0; border-radius: 5px; font-size: 11px; font-weight: 800; white-space: nowrap; }
+.ov-transits .card .card-body.xsmall { padding: 17px 22px; border-top: 1px solid #edf0f3; color: #778592; font-size: 12px; line-height: 1.8; }
+.ov-transits .transits-plates .table td { padding: 19px 22px; }
+.ov-transits .transits-plates .table tr:last-child td { border-bottom: 0; }
+.ov-transits .transits-plates .table .xsmall { margin-top: 5px; color: #778592; font-size: 11px; }
+.ov-transits .transits-payment-label { display: flex; align-items: center; gap: 11px; }
+.ov-transits .transits-payment-label .service-icon { width: 32px; height: 32px; }
+.ov-transits .transits-payment .eyebrow { color: #526371; font-size: 12px; font-weight: 800; }
+.ov-transits .transits-payment p { color: #6b7783; font-size: 14px; line-height: 1.8; }
+.ov-transits .transits-payment .btn { width: 100%; }
+.ov-transits .mock-note { margin-top: 28px; padding: 18px 0; color: #7b8791; background: #fff; font-size: 12px; line-height: 1.9; }
+@media (min-width: 620px) {
+  .ov-transits .transits-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ov-transits .transits-filters .field:last-child { grid-column: 1 / -1; }
+  .ov-transits .transits-metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 1100px) {
+  .ov-transits .tile .v { font-size: 28px; }
+}
+@media (min-width: 1280px) {
+  .ov-transits .transits-filters { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.8fr); }
+  .ov-transits .transits-filters .field:last-child { grid-column: auto; }
+  .ov-transits .transits-columns { grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr); }
+}
+@media (max-width: 619px) {
+  .ov-transits .transits-heading-copy { flex-basis: calc(100% - 78px); min-width: 0; }
+  .ov-transits .transits-export { width: 100%; }
+  .ov-transits .transits-export .btn { flex: 1; }
+}
+@media (max-width: 389px) {
+  .ov-transits .transits-heading { gap: 12px; }
+  .ov-transits .transits-heading-icon { width: 49px; height: 49px; border-radius: 12px; }
+  .ov-transits .transits-heading-icon .service-icon { width: 31px; height: 31px; }
+  .ov-transits .transits-heading-copy { flex-basis: calc(100% - 61px); }
+  .ov-transits .card .card-body { padding: 20px 17px; }
+  .ov-transits .card .card-body.tight { padding: 0; }
+  .ov-transits .tile { padding: 20px 17px; }
+  .ov-transits .transits-export .btn { gap: 6px; padding: 10px 9px; font-size: 14px; }
+}

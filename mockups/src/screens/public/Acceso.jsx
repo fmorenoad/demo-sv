@@ -1,23 +1,81 @@
-import { useState } from 'react'
+import { cloneElement, useEffect, useId, useRef, useState } from 'react'
 import { href } from '../../router.jsx'
-import { Card, Field, Steps, Alert, MockNote } from '../../components/ui.jsx'
+import { Steps, Alert, MockNote } from '../../components/ui.jsx'
+import ServiceIcon from '../../components/ServiceIcon.jsx'
+import '../../acceso.css'
 
-function Split({ children, title, intro }) {
-  return (
-    <div className="wrap">
-      <div className="section card" style={{ maxWidth: 960, margin: '28px auto 0' }}>
-        <div className="login-split">
-          <div className="login-form">
-            <div className="eyebrow">Oficina Virtual</div>
-            <h2 style={{ margin: '8px 0 4px' }}>{title}</h2>
-            {intro && <p className="small muted" style={{ marginBottom: 20 }}>{intro}</p>}
-            {children}
-          </div>
-          <div className="login-photo" aria-hidden="true" />
+const BENEFITS = [
+  { icon: 'bill', text: 'Consulta y paga tus tránsitos' },
+  { icon: 'car', text: 'Administra tus vehículos y tu TAG' },
+  { icon: 'status', text: 'Accede a tu historial y comprobantes' },
+]
+
+function Field({ label, hint, children }) {
+  const id = useId()
+  return <div className="field">
+    <label htmlFor={id}>{label}</label>
+    {cloneElement(children, { id, ...(hint ? { 'aria-describedby': id + '-hint' } : {}) })}
+    {hint && <div id={id + '-hint'} className="xsmall muted access-hint">{hint}</div>}
+  </div>
+}
+
+function Split({ children, title, intro, variant = 'login' }) {
+  const rootRef = useRef(null)
+  const titleId = useId()
+
+  useEffect(() => {
+    const root = rootRef.current
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const targets = [...root.querySelectorAll('.access-observe')]
+    let observer
+    const activate = () => {
+      observer?.disconnect()
+      if (motion.matches || typeof IntersectionObserver === 'undefined') {
+        root.classList.remove('motion-ready')
+        return
+      }
+      targets.forEach((element) => {
+        const rect = element.getBoundingClientRect()
+        element.classList.toggle('is-visible', rect.top < innerHeight && rect.bottom > 0)
+      })
+      root.classList.add('motion-ready')
+      observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+        entry.target.classList.toggle('is-visible', entry.isIntersecting)
+        entry.target.classList.toggle('exits-above', entry.boundingClientRect.bottom <= 0)
+      }), { threshold: 0.02 })
+      targets.forEach((element) => observer.observe(element))
+    }
+    activate()
+    motion.addEventListener?.('change', activate)
+    return () => {
+      observer?.disconnect()
+      motion.removeEventListener?.('change', activate)
+    }
+  }, [variant])
+
+  return <section ref={rootRef} className={'access-page access-' + variant} aria-labelledby={titleId}>
+    <div className="access-scene access-observe" aria-hidden="true">
+      <img className="access-photo" src={'/assets/access-' + variant + '.webp'} alt="" width="2048" height="1152" fetchPriority="high" />
+    </div>
+    <div className="access-container">
+      <div className="access-intro access-observe">
+        <div className="access-copy">
+          <div className="access-eyebrow">Oficina Virtual</div>
+          <h1 id={titleId}>{variant === 'login' ? 'Gestiona tus tránsitos en línea' : title}</h1>
+          <p className="access-lead">{variant === 'login' ? 'Revisa tus pasadas, paga tus cuentas, administra tus vehículos y mucho más, de forma rápida y segura.' : intro}</p>
+          <ul className="access-benefits">{BENEFITS.map((benefit) => <li key={benefit.icon}><ServiceIcon type={benefit.icon} /><span>{benefit.text}</span></li>)}</ul>
+        </div>
+      </div>
+      <div className="access-form-frame access-observe">
+        <div className="access-card">
+          <div className="access-card-mark" aria-hidden="true"><ServiceIcon type={variant === 'register' ? 'account' : 'shield'} /></div>
+          <h2>{title}</h2>
+          {intro && <p className="access-form-intro">{intro}</p>}
+          <div className="access-fields">{children}</div>
         </div>
       </div>
     </div>
-  )
+  </section>
 }
 
 export function Login({ onLogin, notice }) {
@@ -63,7 +121,7 @@ export function Login({ onLogin, notice }) {
 export function Registro() {
   const [step, setStep] = useState(1)
   return (
-    <Split title="Regístrate" intro="Crea tu cuenta para arrendar un TAG o administrar tu convenio.">
+    <Split variant="register" title="Regístrate" intro="Crea tu cuenta para arrendar un TAG o administrar tu convenio.">
       <Steps steps={['Tus datos', 'Verificación', 'Clave']} current={step} />
       {step === 1 && (
         <>
@@ -102,7 +160,7 @@ export function Registro() {
 export function Recuperar() {
   const [sent, setSent] = useState(false)
   return (
-    <Split title="Recuperar contraseña" intro="Te enviaremos un enlace seguro, válido por 30 minutos.">
+    <Split variant="recover" title="Recuperar contraseña" intro="Te enviaremos un enlace seguro, válido por 30 minutos.">
       {sent ? (
         <Alert tone="ok" title="Revisa tu correo">Si el RUT está registrado, enviamos un enlace a ma•••@ejemplo.cl y un aviso a tu celular. No revelamos si la cuenta existe.</Alert>
       ) : (

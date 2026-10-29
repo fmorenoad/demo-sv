@@ -12,7 +12,13 @@ const LINKS = [
 
 export default function CustomerServices() {
   return <section className="customer-services" aria-labelledby="customer-services-title">
-    <div className="section-heading"><h2 id="customer-services-title">Información y servicios para ti</h2><p className="small muted">Los accesos de siempre, a mano.</p></div>
+    <div className="section-heading">
+      <div>
+        <p className="eyebrow">Accesos rápidos</p>
+        <h2 id="customer-services-title">Información y servicios para ti</h2>
+      </div>
+      <p className="small muted">Los accesos de siempre, ahora más simples.</p>
+    </div>
     <div className="customer-service-grid">{LINKS.map((item) => {
       const external = item.url.startsWith('https:')
       return <a key={item.title} className="customer-service" href={item.url} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined}>

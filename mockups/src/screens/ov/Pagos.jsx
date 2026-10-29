@@ -1,7 +1,16 @@
 import { useState } from 'react'
 import { href } from '../../router.jsx'
-import { Page, Card, Badge, Alert, Toast, MockNote } from '../../components/ui.jsx'
+import { Card, Badge, Alert, Toast, MockNote } from '../../components/ui.jsx'
 import { DOCUMENTOS, TRANSITOS, clp } from '../../data/mock.js'
+import ServiceIcon from '../../components/ServiceIcon.jsx'
+import '../../pagos.css'
+
+const PAYMENT_METHODS = [
+  { label: 'Webpay', detail: 'Débito y crédito', icon: 'payment' },
+  { label: 'Transferencia', detail: 'Khipu', icon: 'account' },
+  { label: 'Automático', detail: 'PAC / PAT', icon: 'status' },
+  { label: 'Presencial', detail: 'Puntos de atención', icon: 'map' },
+]
 
 export default function Pagos() {
   const [toast, setToast] = useState('')
@@ -9,60 +18,74 @@ export default function Pagos() {
   const deuda = pendientes.reduce((a, t) => a + t.monto, 0)
 
   return (
-    <Page title="Pagos y documentos" subtitle="Deuda vigente, medios de pago y tus boletas y facturas."
-      actions={<a href={href('ov/pagar')} className="btn primary sm">Pagar {clp(deuda)}</a>}>
-      <div className="grid sidebar">
-        <Card title="Deuda vigente" right={<Badge tone="warn" dot>{pendientes.length} tránsitos no facturados</Badge>}>
-          <div className="debt-row">
-            <div><div className="k xsmall muted">Monto</div><div className="big">{clp(deuda)}</div></div>
-            <div><div className="k xsmall muted">Próxima boleta</div><div><strong>23-11-2026</strong></div></div>
-            <div><div className="k xsmall muted">Vence sin recargo</div><div><strong>08-12-2026</strong></div></div>
+    <div className="pagos-page">
+      <header className="pagos-head">
+        <div>
+          <p className="pagos-eyebrow">Facturación</p>
+          <h1>Pagos y documentos</h1>
+          <p>Deuda vigente, medios de pago y tus boletas y facturas.</p>
+        </div>
+        <a href={href('ov/pagar')} className="btn primary"><ServiceIcon type="payment" /> Pagar {clp(deuda)}</a>
+      </header>
+
+      <div className="pagos-overview">
+        <Card className="pagos-debt" title="Deuda vigente">
+          <div className="pagos-debt-status"><Badge tone="warn">{pendientes.length} tránsitos no facturados</Badge></div>
+          <div className="pagos-amount">
+            <span>Monto</span>
+            <strong>{clp(deuda)}</strong>
           </div>
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 14 }}>
-            <a href={href('ov/pagar')} className="btn primary">Pagar y facturar ahora</a>
+          <dl className="pagos-dates">
+            <div><dt>Próxima boleta</dt><dd>23-11-2026</dd></div>
+            <div><dt>Vence sin recargo</dt><dd>08-12-2026</dd></div>
+          </dl>
+          <div className="pagos-debt-actions">
+            <a href={href('ov/pagar')} className="btn primary"><span aria-hidden="true">→</span> Pagar y facturar ahora</a>
             <a href={href('ov/repactar')} className="btn ghost">Simular repactación</a>
-            <button className="btn ghost" onClick={() => setToast('PAC activado en demo: los pagos se cargarán a tu cuenta el día 5 de cada mes.')}>Activar pago automático (PAC)</button>
           </div>
+          <button className="pagos-pac" onClick={() => setToast('PAC activado en demo: los pagos se cargarán a tu cuenta el día 5 de cada mes.')}>Activar pago automático (PAC)</button>
         </Card>
 
-        <Card title="Medios de pago">
-          <div className="kv"><span className="muted">Webpay</span><strong>Débito y crédito</strong></div>
-          <div className="kv"><span className="muted">Transferencia</span><strong>Khipu</strong></div>
-          <div className="kv"><span className="muted">Automático</span><strong>PAC / PAT</strong></div>
-          <div className="kv"><span className="muted">Presencial</span><strong>Puntos de atención</strong></div>
+        <Card className="pagos-methods" title="Medios de pago">
+          <ul className="pagos-method-list">
+            {PAYMENT_METHODS.map((method) => <li key={method.label}>
+              <ServiceIcon type={method.icon} />
+              <div><strong>{method.label}</strong><span>{method.detail}</span></div>
+            </li>)}
+          </ul>
           <Alert tone="info">Si un pago se aprueba pero la boleta queda pendiente, verás ambos estados por separado y nunca se cobra dos veces.</Alert>
         </Card>
       </div>
 
-      <div className="section">
-        <Card title="Documentos emitidos" right={<span className="xsmall muted">{DOCUMENTOS.length} documentos · últimos 12 meses</span>} tight>
-          <div className="table-scroll">
-            <table className="table">
-              <thead><tr><th>Documento</th><th>N°</th><th>Emisión</th><th className="num">Monto</th><th>Estado de pago</th><th>Medio</th><th className="center">Descargar</th></tr></thead>
-              <tbody>
-                {DOCUMENTOS.map((d) => (
-                  <tr key={d.nro}>
-                    <td><strong>{d.tipo}</strong><div className="xsmall muted">{d.tipoLabel}</div></td>
-                    <td>{d.nro}</td>
-                    <td>{d.fecha}</td>
-                    <td className="num">{clp(d.monto)}</td>
-                    <td>{d.pagado ? <Badge tone="ok" dot>Pagado el {d.fechaPago}</Badge> : <Badge tone="warn" dot>Pendiente</Badge>}</td>
-                    <td className="small">{d.medio}</td>
-                    <td className="center"><button className="link" onClick={() => setToast(`Descargando ${d.tipoLabel} N° ${d.nro}…`)}>PDF ↓</button></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="card-body" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            <button className="btn ghost sm" onClick={() => setToast('Preparando ZIP con 5 documentos…')}>Descargar todos (ZIP)</button>
-            <a href={href('ov/suscripciones')} className="btn ghost sm">Recibir boleta por email</a>
-          </div>
-        </Card>
-      </div>
+      <Card className="pagos-documents" title="Documentos emitidos" right={<span className="pagos-document-count">{DOCUMENTOS.length} documentos · últimos 12 meses</span>} tight>
+        <div className="pagos-document-tools">
+          <button className="btn ghost" onClick={() => setToast('Preparando ZIP con 5 documentos…')}><span aria-hidden="true">↓</span> Descargar todos (ZIP)</button>
+        </div>
+        <div className="pagos-table-scroll" role="region" aria-label="Documentos emitidos, tabla desplazable" tabIndex={0}>
+          <table className="table">
+            <thead><tr><th scope="col">Documento</th><th scope="col">N°</th><th scope="col">Emisión</th><th scope="col" className="num">Monto</th><th scope="col">Estado de pago</th><th scope="col">Medio</th><th scope="col" className="center">Descargar</th></tr></thead>
+            <tbody>
+              {DOCUMENTOS.map((d) => (
+                <tr key={d.nro}>
+                  <td><strong>{d.tipoLabel}</strong><div className="pagos-document-type">{d.tipo}</div></td>
+                  <td>{d.nro}</td>
+                  <td>{d.fecha}</td>
+                  <td className="num">{clp(d.monto)}</td>
+                  <td>{d.pagado ? <Badge tone="ok">Pagado el {d.fechaPago}</Badge> : <Badge tone="warn">Pendiente</Badge>}</td>
+                  <td>{d.medio}</td>
+                  <td className="center"><button className="link" aria-label={`Descargar PDF de ${d.tipoLabel} N° ${d.nro}`} onClick={() => setToast(`Descargando ${d.tipoLabel} N° ${d.nro}…`)}>PDF ↓</button></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="pagos-document-footer">
+          <a href={href('ov/suscripciones')}>Recibir boleta por email <span aria-hidden="true">→</span></a>
+        </div>
+      </Card>
 
       <Toast msg={toast} onDone={() => setToast('')} />
       <MockNote><strong>Mockup de Pagos y documentos.</strong> Corrige lo observado en el portal: monto real por documento, fecha y medio de pago en texto, pago siempre visible.</MockNote>
-    </Page>
+    </div>
   )
 }

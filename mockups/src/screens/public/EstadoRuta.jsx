@@ -1,6 +1,8 @@
+import { useEffect, useRef, useState } from 'react'
 import SocialFeed from '../../components/SocialFeed.jsx'
-import { useState } from 'react'
-import { Page, Card, Badge, Field, Alert, MockNote } from '../../components/ui.jsx'
+import ServiceIcon from '../../components/ServiceIcon.jsx'
+import TarifasSelect from '../../components/TarifasSelect.jsx'
+import { Alert, MockNote } from '../../components/ui.jsx'
 import { INCIDENTES, TRABAJOS, TRAMOS, PORTICOS } from '../../data/mock.js'
 
 function RouteMap() {
@@ -35,90 +37,142 @@ function RouteMap() {
 }
 
 export default function EstadoRuta() {
+  const pageRef = useRef(null)
+  const detailTimerRef = useRef()
   const [tramo, setTramo] = useState(TRAMOS[0])
   const [canal, setCanal] = useState('SMS')
   const [ok, setOk] = useState(false)
   const [acepta, setAcepta] = useState(false)
+  const [selectedIncidentId, setSelectedIncidentId] = useState(INCIDENTES[0].id)
+  const [displayedIncidentId, setDisplayedIncidentId] = useState(INCIDENTES[0].id)
+  const [detailPhase, setDetailPhase] = useState('idle')
+  const selectedIncident = INCIDENTES.find((incident) => incident.id === displayedIncidentId) || INCIDENTES[0]
+  const relatedWork = TRABAJOS.filter((work) => work.tramo === selectedIncident.tramo)
+  const tramoOptions = TRAMOS.map((option) => ({ value: option, label: option }))
+
+  const selectIncident = (id) => {
+    setSelectedIncidentId(id)
+    clearTimeout(detailTimerRef.current)
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setDisplayedIncidentId(id)
+      setDetailPhase('idle')
+      return
+    }
+    setDetailPhase('exit')
+    detailTimerRef.current = window.setTimeout(() => {
+      setDisplayedIncidentId(id)
+      setDetailPhase('enter')
+      detailTimerRef.current = window.setTimeout(() => setDetailPhase('idle'), 280)
+    }, 180)
+  }
+
+  useEffect(() => () => clearTimeout(detailTimerRef.current), [])
+
+  useEffect(() => {
+    const root = pageRef.current
+    if (!root) return undefined
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const targets = [...root.querySelectorAll('.ruta-reveal')]
+    let observer
+    const showAll = () => { root.classList.remove('reveal-ready'); targets.forEach((element) => element.classList.add('is-visible')) }
+    const observe = () => {
+      if (motion.matches || !('IntersectionObserver' in window)) return showAll()
+      targets.forEach((element) => {
+        const rect = element.getBoundingClientRect()
+        element.classList.toggle('is-visible', rect.top < window.innerHeight && rect.bottom > 0)
+      })
+      root.classList.add('reveal-ready')
+      observer = new IntersectionObserver((entries) => entries.forEach((entry) => entry.target.classList.toggle('is-visible', entry.isIntersecting)), { threshold: 0.08, rootMargin: '0px 0px -6% 0px' })
+      targets.forEach((element) => observer.observe(element))
+    }
+    const handleMotion = () => { observer?.disconnect(); observer = undefined; observe() }
+    observe()
+    motion.addEventListener?.('change', handleMotion)
+    return () => {
+      observer?.disconnect()
+      motion.removeEventListener?.('change', handleMotion)
+      root.classList.remove('reveal-ready')
+      targets.forEach((element) => element.classList.remove('is-visible'))
+    }
+  }, [])
 
   return (
-    <Page title="Estado de la ruta" subtitle="Estado y trabajos con datos de demostración. Consulta también las publicaciones del canal oficial de X.">
-      <Card tight>
-        <div className="card-body"><RouteMap /></div>
-      </Card>
+    <main ref={pageRef} className="ruta-page">
+      <section className="ruta-hero">
+        <div className="ruta-hero-media ruta-reveal"><img src="/assets/ruta-survias.png" alt="" width="1536" height="1024" /></div>
+        <div className="ruta-container ruta-hero-content ruta-reveal">
+          <h1>Estado de la ruta</h1>
+          <p>Estado y trabajos con datos de demostración. Consulta también las publicaciones del canal oficial de X.</p>
+        </div>
+      </section>
 
-      <div className="section grid cols-3">
-        {INCIDENTES.map((i) => (
-          <Card key={i.id}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
-              <h3 style={{ fontSize: 15 }}>{i.tramo}</h3>
-              <Badge tone={i.nivel} dot>{i.tipo}</Badge>
+      <div className="ruta-container ruta-layout">
+        <div className="ruta-main">
+          <section className="ruta-map-panel ruta-reveal"><div className="ruta-map-scroll" tabIndex="0"><RouteMap /></div></section>
+
+          <section className="ruta-incidents" aria-label="Estado de los tramos">
+            {INCIDENTES.map((i) => <button type="button" aria-pressed={selectedIncidentId === i.id} onClick={() => selectIncident(i.id)} key={i.id} className={'ruta-incident ruta-reveal ' + i.nivel}>
+              <span className="ruta-incident-icon"><ServiceIcon type={i.nivel === 'ok' ? 'status' : 'roadworks'} /></span>
+              <div><h2>{i.tramo}</h2><span className={'ruta-status ' + i.nivel}>{i.tipo}</span><p>{i.texto}</p><small>Actualizado {i.hora} · Survías</small></div>
+            </button>)}
+          </section>
+
+          <section className="ruta-detail ruta-reveal" aria-live="polite">
+            <div className={'ruta-detail-inner ' + detailPhase}>
+              <span className="ruta-detail-icon"><ServiceIcon type={selectedIncident.nivel === 'ok' ? 'status' : 'roadworks'} /></span>
+              <div className="ruta-detail-copy">
+                <div><h2>{selectedIncident.tramo}</h2><span className={'ruta-status ' + selectedIncident.nivel}>{selectedIncident.tipo}</span></div>
+                <p>{selectedIncident.texto}</p>
+                <small>Actualizado {selectedIncident.hora} · Survías</small>
+                {relatedWork.length > 0 && <h3 className="ruta-detail-work-heading">Calendario de trabajos programados</h3>}
+                {relatedWork.map((work) => <dl className="ruta-detail-work" key={work.id}>
+                  <div><dt><ServiceIcon type="bill" /><span>Trabajo</span></dt><dd>{work.titulo}</dd></div>
+                  <div><dt><ServiceIcon type="calendar" /><span>Fecha</span></dt><dd>{work.cuando}</dd></div>
+                  <div><dt><ServiceIcon type="map" /><span>Tramo</span></dt><dd>{work.tramo}</dd></div>
+                  <div><dt><ServiceIcon type="status" /><span>Efecto esperado</span></dt><dd>{work.efecto}</dd></div>
+                </dl>)}
+              </div>
             </div>
-            <p className="small muted" style={{ marginTop: 8 }}>{i.texto}</p>
-            <div className="xsmall muted" style={{ marginTop: 8 }}>Actualizado {i.hora} · Survías</div>
-          </Card>
-        ))}
+          </section>
+
+          <section className="ruta-calendar ruta-reveal" aria-labelledby="calendar-title">
+            <div className="ruta-section-head"><div><h2 id="calendar-title">Calendario de trabajos programados</h2><span>Act. 25-10-2026</span></div><ServiceIcon type="roadworks" /></div>
+            <div className="ruta-work-head" aria-hidden="true"><span>Fecha</span><span>Trabajo</span><span>Tramo</span><span>Efecto esperado</span></div>
+            <div className="ruta-work-list">
+              {TRABAJOS.map((w) => <article className="ruta-work-item ruta-reveal" key={w.id}>
+                <time>{w.cuando}</time>
+                <span className="ruta-work-icon"><ServiceIcon type="roadworks" /></span>
+                <div className="ruta-work-copy"><h3>{w.titulo}</h3><p>{w.detalle}</p><dl><div><dt>Tramo</dt><dd>{w.tramo}</dd></div><div><dt>Efecto esperado</dt><dd>{w.efecto}</dd></div></dl></div>
+              </article>)}
+            </div>
+          </section>
+        </div>
+
+        <aside className="ruta-sidebar">
+          <section className="ruta-notifications ruta-reveal" aria-labelledby="notifications-title">
+            <div className="ruta-section-head"><div><h2 id="notifications-title">Recibe avisos en tu celular</h2></div><ServiceIcon type="status" /></div>
+            {ok ? (
+              <Alert tone="ok" title="Avisos activados">
+                Te avisaremos por {canal} sobre trabajos e incidentes en {tramo}. Puedes darte de baja desde el mismo mensaje.
+                <div style={{ marginTop: 10 }}><button className="btn ghost sm" onClick={() => setOk(false)}>Cambiar preferencias</button></div>
+              </Alert>
+            ) : (
+              <>
+                <p className="ruta-form-intro">Elige un tramo y un canal. No pedimos tu ubicación.</p>
+                <div className="ruta-field"><TarifasSelect id="ruta-tramo" label="Tramo" value={tramo} options={tramoOptions} onChange={setTramo} /></div>
+                <fieldset className="ruta-field"><legend>Canal</legend><div className="ruta-channels">{['SMS', 'WhatsApp', 'Email'].map((c) => <button key={c} type="button" className={canal === c ? 'on' : ''} aria-pressed={canal === c} onClick={() => setCanal(c)}>{c}</button>)}</div></fieldset>
+                <div className="ruta-field"><label htmlFor="ruta-contacto">{canal === 'Email' ? 'Correo' : 'Celular'}</label><input id="ruta-contacto" placeholder={canal === 'Email' ? 'nombre@correo.cl' : '+56 9 ____ ____'} /></div>
+                <label className="ruta-consent"><input type="checkbox" checked={acepta} onChange={(e) => setAcepta(e.target.checked)} /><span>Acepto recibir avisos sobre este tramo. Máximo 3 mensajes por semana; baja inmediata respondiendo BAJA.</span></label>
+                <button className="ruta-submit" disabled={!acepta} onClick={() => setOk(true)}>Activar avisos</button>
+              </>
+            )}
+          </section>
+          <div className="ruta-social ruta-reveal"><SocialFeed /></div>
+        </aside>
       </div>
 
-      <div className="section grid sidebar">
-        <Card title="Calendario de trabajos programados" right={<span className="xsmall muted">Act. 25-10-2026</span>} tight>
-          <table className="table">
-            <thead><tr><th>Fecha</th><th>Trabajo</th><th>Tramo</th><th>Efecto esperado</th></tr></thead>
-            <tbody>
-              {TRABAJOS.map((w) => (
-                <tr key={w.id}>
-                  <td><strong>{w.cuando}</strong></td>
-                  <td>{w.titulo}<div className="xsmall muted">{w.detalle}</div></td>
-                  <td>{w.tramo}</td>
-                  <td>{w.efecto}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </Card>
-
-        <Card title="Recibe avisos en tu celular">
-          {ok ? (
-            <Alert tone="ok" title="Avisos activados">
-              Te avisaremos por {canal} sobre trabajos e incidentes en {tramo}. Puedes darte de baja desde el mismo mensaje.
-              <div style={{ marginTop: 10 }}><button className="btn ghost sm" onClick={() => setOk(false)}>Cambiar preferencias</button></div>
-            </Alert>
-          ) : (
-            <>
-              <p className="small muted" style={{ marginBottom: 12 }}>Elige un tramo y un canal. No pedimos tu ubicación.</p>
-              <Field label="Tramo">
-                <select className="input" value={tramo} onChange={(e) => setTramo(e.target.value)}>
-                  {TRAMOS.map((t) => <option key={t}>{t}</option>)}
-                </select>
-              </Field>
-              <Field label="Canal">
-                <div className="seg">
-                  {['SMS', 'WhatsApp', 'Email'].map((c) => (
-                    <button key={c} type="button" className={canal === c ? 'on' : ''} onClick={() => setCanal(c)}>{c}</button>
-                  ))}
-                </div>
-              </Field>
-              <Field label={canal === 'Email' ? 'Correo' : 'Celular'}>
-                <input className="input" placeholder={canal === 'Email' ? 'nombre@correo.cl' : '+56 9 ____ ____'} />
-              </Field>
-              <label className="small" style={{ display: 'flex', gap: 8, alignItems: 'flex-start', margin: '4px 0 14px' }}>
-                <input type="checkbox" checked={acepta} onChange={(e) => setAcepta(e.target.checked)} style={{ marginTop: 3 }} />
-                <span>Acepto recibir avisos sobre este tramo. Máximo 3 mensajes por semana; baja inmediata respondiendo BAJA.</span>
-              </label>
-              <button className="btn primary block" disabled={!acepta} onClick={() => setOk(true)}>Activar avisos</button>
-            </>
-          )}
-        </Card>
-      </div>
-
-      <div className="section">
-        <Alert tone="info" title="Fuentes de información">
-          El estado de la ruta proviene del centro de control de Survías. Los datos de tráfico de terceros (por ejemplo Waze) se mostrarán identificados como tales cuando la integración esté disponible; si una fuente no responde, esta página lo indica y mantiene los canales oficiales: 600 252 6000.
-        </Alert>
-      </div>
-
-      <div className="section"><SocialFeed /></div>
-      <MockNote><strong>Mockup de Estado de ruta.</strong> Incidentes y trabajos son de ejemplo. Pórticos: {PORTICOS.map((p) => p.nombre).join(' y ')}.</MockNote>
-    </Page>
+      <div className="ruta-container ruta-sources ruta-reveal"><Alert tone="info" title="Fuentes de información">El estado de la ruta proviene del centro de control de Survías. Los datos de tráfico de terceros (por ejemplo Waze) se mostrarán identificados como tales cuando la integración esté disponible; si una fuente no responde, esta página lo indica y mantiene los canales oficiales: 600 252 6000.</Alert></div>
+      <div className="ruta-container ruta-note ruta-reveal"><MockNote><strong>Mockup de Estado de ruta.</strong> Incidentes y trabajos son de ejemplo. Pórticos: {PORTICOS.map((p) => p.nombre).join(' y ')}.</MockNote></div>
+    </main>
   )
 }
-
