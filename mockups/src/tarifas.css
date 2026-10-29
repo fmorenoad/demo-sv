@@ -1,0 +1,262 @@
+.tarifas-page {
+  --tarifas-red: #ff0000;
+  --tarifas-ink: #17212b;
+  --tarifas-muted: #66727d;
+  --tarifas-line: #e1e6ea;
+  --tarifas-soft: #f5f7f8;
+  --choice-red: var(--tarifas-red);
+  --choice-ink: var(--tarifas-ink);
+  color: var(--tarifas-ink);
+  background: #fff;
+  font-family: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+}
+
+.tarifas-page *,
+.tarifas-page *::before,
+.tarifas-page *::after { box-sizing: border-box; }
+
+.tarifas-container {
+  width: min(calc(100% - 32px), 1560px);
+  min-width: 0;
+  margin-inline: auto;
+}
+
+.tarifas-hero {
+  position: relative;
+  isolation: isolate;
+  min-height: var(--section-hero-min-height, 680px);
+  overflow: hidden;
+  background: #fff;
+}
+
+.tarifas-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, .96) 62%, rgba(255, 255, 255, .35) 100%);
+}
+
+.tarifas-hero > img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 57% center;
+}
+
+.tarifas-hero-content { padding-block: 30px 38px; }
+.tarifas-breadcrumb { display: flex; align-items: center; gap: 10px; color: var(--tarifas-muted); font-size: 14px; }
+.tarifas-breadcrumb a { color: inherit; text-decoration: none; }
+.tarifas-breadcrumb a:hover { color: var(--tarifas-red); }
+.tarifas-kicker { margin-top: 42px; color: var(--tarifas-red); font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.tarifas-hero h1 { max-width: 750px; margin: 10px 0 8px; color: var(--tarifas-ink); font-size: clamp(38px, 9vw, 68px); font-weight: 750; line-height: 1.04; letter-spacing: -.05em; }
+.tarifas-lead { max-width: 650px; color: #53616d; font-size: 16px; line-height: 1.65; }
+
+.tarifas-meta {
+  display: grid;
+  gap: 12px;
+  max-width: 860px;
+  margin-top: 34px;
+}
+
+.tarifas-meta > span { display: flex; align-items: center; gap: 11px; min-width: 0; }
+.tarifas-meta .service-icon { width: 34px; height: 34px; flex: none; color: #697680; }
+.tarifas-page .service-icon-accent { color: var(--tarifas-red); }
+.tarifas-meta strong,
+.tarifas-meta small { display: block; }
+.tarifas-meta strong { font-size: 14px; }
+.tarifas-meta small { margin-top: 2px; color: var(--tarifas-muted); font-size: 12px; }
+
+.tarifas-layout {
+  display: grid;
+  grid-template-areas: 'simulator' 'result' 'table';
+  gap: 16px;
+  padding-top: 24px;
+}
+
+.tarifas-panel,
+.tarifas-result {
+  min-width: 0;
+  border: 0;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 12px 38px rgba(23, 33, 43, .09);
+}
+
+.tarifas-simulator { position: relative; z-index: 20; grid-area: simulator; padding: 20px; overflow: visible; }
+.tarifas-simulator:focus-within { z-index: 30; }
+.tarifas-table-panel { z-index: 1; grid-area: table; overflow: hidden; }
+.tarifas-result { z-index: 1; grid-area: result; padding: 20px; }
+
+.tarifas-panel-head { display: flex; align-items: flex-start; gap: 12px; }
+.tarifas-panel-head > div { min-width: 0; flex: 1; }
+.tarifas-panel-head h2 { color: var(--tarifas-ink); font-size: 21px; letter-spacing: -.025em; }
+.tarifas-panel-head p { margin-top: 5px; color: var(--tarifas-muted); font-size: 14px; line-height: 1.55; }
+.tarifas-icon-box,
+.tarifas-support-icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  flex: none;
+  border-radius: 12px;
+  color: #697680;
+  background: transparent;
+}
+.tarifas-icon-box .service-icon,
+.tarifas-support-icon .service-icon { width: 31px; height: 31px; }
+
+.tarifas-controls { display: grid; gap: 16px; margin-top: 24px; }
+
+.tarifas-peak { display: flex; align-items: center; gap: 12px; margin-top: 18px; cursor: pointer; }
+.tarifas-peak > input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.tarifas-switch { position: relative; width: 46px; height: 26px; flex: none; border-radius: 999px; background: #cdd4d9; transition: background .2s ease; }
+.tarifas-switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 2px 7px rgba(0, 0, 0, .18); transition: transform .2s ease; }
+.tarifas-peak input:checked + .tarifas-switch { background: var(--tarifas-red); }
+.tarifas-peak input:checked + .tarifas-switch::after { transform: translateX(20px); }
+.tarifas-peak input:focus-visible + .tarifas-switch { outline: 3px solid rgba(255, 0, 0, .2); outline-offset: 2px; }
+.tarifas-peak strong,
+.tarifas-peak small { display: block; }
+.tarifas-peak strong { font-size: 14px; }
+.tarifas-peak small { margin-top: 3px; color: var(--tarifas-muted); font-size: 12px; }
+
+.tarifas-result-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.tarifas-result-top p { color: #71808b; font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.tarifas-iva,
+.tarifas-table-badge { padding: 5px 8px; border-radius: 999px; color: #087b4b; background: #e2f7eb; font-size: 9px; font-weight: 800; }
+.tarifas-vehicle { display: flex; align-items: center; gap: 11px; margin-top: 18px; }
+.tarifas-vehicle strong,
+.tarifas-vehicle small { display: block; }
+.tarifas-vehicle strong { font-size: 15px; }
+.tarifas-vehicle small { margin-top: 3px; color: var(--tarifas-muted); font-size: 12px; }
+.tarifas-total { display: block; margin: 18px 0 14px; color: var(--tarifas-ink); font-size: clamp(42px, 12vw, 58px); line-height: 1; letter-spacing: -.05em; }
+.tarifas-route { display: flex; align-items: center; gap: 12px; padding: 13px; border-radius: 9px; background: #fff0f0; }
+.tarifas-route .service-icon { width: 32px; height: 32px; flex: none; color: #697680; }
+.tarifas-route strong,
+.tarifas-route small { display: block; }
+.tarifas-route strong { font-size: 15px; }
+.tarifas-route small { margin-top: 3px; color: var(--tarifas-muted); font-size: 12px; }
+.tarifas-breakdown { display: grid; gap: 12px; margin-top: 20px; color: #59656f; font-size: 14px; }
+.tarifas-breakdown > div { display: flex; justify-content: space-between; gap: 12px; }
+.tarifas-breakdown small { color: #8a949c; }
+.tarifas-breakdown p { padding: 13px; border-radius: 8px; background: var(--tarifas-soft); line-height: 1.5; }
+.tarifas-grand { display: flex; justify-content: space-between; gap: 12px; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--tarifas-line); font-size: 15px; font-weight: 750; }
+.tarifas-grand strong { color: var(--tarifas-red); font-size: 20px; }
+.tarifas-primary,
+.tarifas-map { display: flex; align-items: center; justify-content: center; gap: 9px; min-height: 48px; margin-top: 14px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 800; }
+.tarifas-primary { color: #fff; background: var(--tarifas-red); }
+.tarifas-primary:hover { background: #d90000; }
+.tarifas-map { border: 1px solid #d8dee2; color: var(--tarifas-ink); background: #fff; }
+.tarifas-map .service-icon { width: 23px; height: 23px; color: #68747e; }
+
+.tarifas-table-panel .tarifas-panel-head { padding: 20px; }
+.tarifas-table-badge { flex: none; margin-left: auto; color: #285f93; background: #e8f2fb; }
+.tarifas-table-scroll { max-width: 100%; overflow-x: auto; border-top: 1px solid var(--tarifas-line); border-bottom: 1px solid var(--tarifas-line); }
+.tarifas-table-scroll:focus-visible { outline: 3px solid rgba(255, 0, 0, .16); outline-offset: -3px; }
+.tarifas-table-scroll table { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+.tarifas-table-scroll th { padding: 16px 18px; color: #53616c; background: #fff; box-shadow: inset 0 -1px #dfe4e7; font-size: 13px; font-weight: 800; text-align: left; }
+.tarifas-table-scroll th:nth-child(n + 3),
+.tarifas-table-scroll td:nth-child(n + 3) { text-align: right; }
+.tarifas-table-scroll td { padding: 16px 18px; border-top: 1px solid #edf0f2; color: #47535d; }
+.tarifas-table-scroll td:first-child strong { color: var(--tarifas-red); }
+.tarifas-table-scroll tbody tr { transition: background .16s ease; }
+.tarifas-table-scroll tbody tr:hover { background: #fff7f7; }
+.tarifas-table-scroll tbody tr.current { background: #fff0f0; box-shadow: inset 4px 0 var(--tarifas-red); }
+.tarifas-table-note { padding: 16px 20px 20px; color: var(--tarifas-muted); font-size: 12px; line-height: 1.6; }
+
+.tarifas-support { display: grid; gap: 12px; margin-top: 22px; }
+.tarifas-support-card { display: flex; gap: 16px; min-width: 0; padding: 22px; border: 0; border-radius: 12px; background: #fff; box-shadow: 0 10px 30px rgba(23, 33, 43, .08); }
+.tarifas-support-card:first-child .tarifas-support-icon { color: #697680; background: transparent; }
+.tarifas-support-card > div { min-width: 0; }
+.tarifas-support-card h2 { color: var(--tarifas-ink); font-size: 18px; }
+.tarifas-support-card p { margin-top: 7px; color: var(--tarifas-muted); font-size: 14px; line-height: 1.6; }
+.tarifas-support-card a { display: inline-flex; gap: 7px; margin-top: 14px; color: var(--tarifas-red); font-size: 14px; font-weight: 800; text-decoration: none; }
+.tarifas-note { padding-bottom: 36px; }
+.tarifas-note .mock-note { margin-top: 24px; }
+
+/* Reversible motion: the exit follows the edge the content leaves through. */
+.tarifas-page.reveal-ready .tarifas-reveal {
+  --tarifas-reveal-y: 48px;
+  opacity: 0;
+  transform: translate3d(0, var(--tarifas-reveal-y), 0) scale(.975);
+  transition: opacity .38s ease, transform .52s cubic-bezier(.22, 1, .36, 1);
+}
+.tarifas-page.reveal-ready .tarifas-reveal[data-reveal-side="above"] { --tarifas-reveal-y: -48px; }
+.tarifas-page.reveal-ready .tarifas-reveal.is-visible,
+.tarifas-page.reveal-ready .tarifas-reveal:focus-within {
+  opacity: 1;
+  transform: none;
+  transition-duration: .7s, .85s;
+}
+/* Keep the hero's observation box stationary while its artwork and copy move. */
+.tarifas-page.reveal-ready .tarifas-hero.tarifas-reveal { opacity: 1; transform: none; }
+.tarifas-page.reveal-ready .tarifas-hero > img {
+  opacity: 0;
+  transform: scale(1.09) translate3d(0, var(--tarifas-reveal-y), 0);
+  transition: opacity .65s ease, transform 1.25s cubic-bezier(.22, 1, .36, 1);
+}
+.tarifas-page.reveal-ready .tarifas-hero.is-visible > img { opacity: 1; transform: none; }
+.tarifas-page.reveal-ready :is(.tarifas-hero-content, .tarifas-meta, .tarifas-simulator, .tarifas-result, .tarifas-support-card) > :not(img) {
+  --tarifas-step: 0;
+  transition: opacity .4s ease, transform .55s cubic-bezier(.22, 1, .36, 1);
+}
+.tarifas-page.reveal-ready :is(.tarifas-hero-content, .tarifas-meta, .tarifas-result) > :nth-child(2) { --tarifas-step: 1; }
+.tarifas-page.reveal-ready :is(.tarifas-hero-content, .tarifas-meta, .tarifas-result) > :nth-child(3) { --tarifas-step: 2; }
+.tarifas-page.reveal-ready :is(.tarifas-hero-content, .tarifas-result) > :nth-child(n + 4) { --tarifas-step: 3; }
+.tarifas-page.reveal-ready .tarifas-reveal:not(.is-visible):not(:focus-within) :is(.tarifas-hero-content > *, .tarifas-meta > span, .tarifas-result > *, .tarifas-support-card > *) {
+  opacity: 0;
+  transform: translate3d(0, var(--tarifas-reveal-y), 0);
+}
+.tarifas-page.reveal-ready .tarifas-reveal.is-visible :is(.tarifas-hero-content > *, .tarifas-meta > span, .tarifas-result > *, .tarifas-support-card > *) {
+  transition-duration: .65s, .8s;
+  transition-delay: calc(var(--tarifas-step) * 65ms);
+}
+.tarifas-page.reveal-ready .tarifas-support-card:nth-child(2).is-visible { transition-delay: 65ms; }
+.tarifas-page.reveal-ready .tarifas-support-card:nth-child(3).is-visible { transition-delay: 130ms; }
+.tarifas-page :is(.tarifas-primary, .tarifas-map, .tarifas-support-card a) { transition: transform .2s ease, background .2s ease; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .tarifas-page :is(.tarifas-primary, .tarifas-map, .tarifas-support-card a):hover { transform: translateY(-3px); }
+}
+
+@media (min-width: 620px) {
+  .tarifas-container { width: min(calc(100% - 48px), 1560px); }
+  .tarifas-meta { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tarifas-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tarifas-category { grid-column: 1 / -1; }
+  .tarifas-support { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tarifas-support-card:last-child { grid-column: 1 / -1; }
+}
+
+@media (min-width: 960px) {
+  .tarifas-hero-content { padding-block: 34px 42px; }
+  .tarifas-hero::after { background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, .96) 43%, rgba(255, 255, 255, .32) 72%, rgba(255, 255, 255, .05) 100%); }
+  .tarifas-layout { grid-template-columns: minmax(0, 1fr) minmax(320px, 390px); grid-template-areas: 'simulator result' 'table result'; align-items: start; gap: 18px; padding-top: 28px; }
+  .tarifas-controls { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tarifas-category { grid-column: auto; }
+  .tarifas-result { position: sticky; top: 18px; }
+  .tarifas-support { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tarifas-support-card:last-child { grid-column: auto; }
+}
+
+@media (min-width: 1280px) {
+  .tarifas-simulator,
+  .tarifas-result { padding: 24px; }
+  .tarifas-controls { gap: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tarifas-page .tarifas-reveal,
+  .tarifas-page .tarifas-reveal *,
+  .tarifas-page :is(.tarifas-primary, .tarifas-map, .tarifas-support-card a) {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .tarifas-page .tarifas-switch,
+  .tarifas-page .tarifas-switch::after {
+    transition: none !important;
+  }
+}
