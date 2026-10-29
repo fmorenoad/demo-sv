@@ -1,0 +1,19 @@
+{
+  "mode": "Built-in image_gen tool",
+  "purpose": "Decorative reference-inspired TAG page assets; not documentation of actual Survias equipment or locations.",
+  "assets": [
+    {
+      "file": "tag-hero.webp",
+      "prompt": "Generate a photorealistic photographic website hero background, ultra-wide landscape 3:1. Chilean Maule region toll highway at warm sunset, distant blue Andes foothills, modern toll plaza across center-right with green lane signals, gray SUV driving away in right-center foreground, several cars and a truck moving through lanes, realistic asphalt, guardrails and trees. Composition: toll plaza and vehicles occupy right two thirds, left third quieter open road and softly lit landscape for text overlay later. Premium realistic transport photography, natural colors, warm peach sky and cool blue mountains. Absolutely no lettering, typography, logos, slogans, watermarks or UI elements. Do not bake in any white gradient; actual photograph across full frame. Save usable image asset for Survias TAG hero."
+    },
+    {
+      "file": "tag-checklist.webp",
+      "prompt": "Use case product-mockup. Create a premium clean 3D product illustration for a toll-road website checklist card. Wide landscape 3:2, soft pure-white studio background with a very pale blush organic rounded blob behind subjects. A light gray clipboard slightly tilted, white paper bearing exactly three simple red check marks and pale gray horizontal lines (no letters). In foreground beside clipboard, a small white rounded rectangular windshield toll TAG transponder with a subtle red abstract S emblem only, no text. Realistic matte plastic, soft gray shadows, restrained red accents. Subjects grouped center, ample white margins. No headline, lettering, watermark, UI or extra objects. Closely matches clean friendly modern highway service brand mockup."
+    },
+    {
+      "file": "tag-windshield.webp",
+      "prompt": "Photorealistic wide website support banner background 3:1. View from inside a modern passenger car, focus on a small white rounded rectangular electronic toll TAG transponder mounted high on front windshield near the top right. Subtle abstract red S emblem on transponder but absolutely no letters or words. Car's dark gray A pillar runs diagonally across right half, side mirror lower right reflecting road. Through glass see soft-focus Chilean highway, greenery, distant mountains, clear pale blue sky. Left HALF a very soft near-white pale warm blush empty luminous interior/background, unobstructed negative space reserved for HTML text added later. Subjects on right third. Premium realistic transport photography, natural daylight, clean serene airy mood. No typography, watermark, UI, hands, people."
+    }
+  ],
+  "processing": "Format conversion to WebP quality 90 and proportional downsizing only. Originals preserved at the generator output location."
+}
