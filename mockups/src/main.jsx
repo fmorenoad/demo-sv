@@ -8,6 +8,7 @@ import './choice-select.css'
 import './home.css'
 import './chatbot.css'
 import './tarifas.css'
+import './estado-ruta.css'
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
