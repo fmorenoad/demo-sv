@@ -1,0 +1,19 @@
+{
+  "mode": "Built-in image_gen tool",
+  "purpose": "Decorative generated highway scenes for login, registration and recovery; not records of actual locations.",
+  "assets": [
+    {
+      "file": "access-login.webp",
+      "prompt": "Photorealistic premium website login background, wide landscape 16:9. Elevated drone view above a straight modern divided Chilean highway receding from bottom center toward distant snowcapped Andes mountains at center-right horizon. Lush green agricultural fields, stands of evergreen trees, rolling hills, crisp pale blue sky, natural late-afternoon daylight. Modest realistic cars and trucks on both separated carriageways, correct highway scale, safe traffic lanes. Highway and mountains primarily center/right; left third contains darker green trees and quiet field landscape to support white HTML headline later. Real photographic transport campaign aesthetic, no UI, text, logos, signage lettering, watermark or gradient baked in. Decorative illustrative Chilean road scene, not a factual record of an actual named highway."
+    },
+    {
+      "file": "access-register.webp",
+      "prompt": "Photorealistic premium transport website account registration background, wide landscape16:9. Elevated drone view of a modern divided Chilean highway gently curving through lush green vineyards and agricultural fields with lines of trees. Distant blue Andes foothills and snow mountain on right horizon, clear morning blue sky and warm sunlight. A few realistic small cars and trucks seen from above, highway from bottom center toward center-right, believable markings and separated carriageways. Left third quiet darker trees/fields for later white HTML text. Cohesive upscale road photography, verdant natural palette, crisp but atmospheric, welcoming new journey mood. No people closeup, UI, text, logos, legible signage, watermark or baked-in gradient. Decorative generated scene not factual photograph of named road."
+    },
+    {
+      "file": "access-recover.webp",
+      "prompt": "Photorealistic premium transport website password recovery background, wide landscape16:9. Elevated oblique drone photograph of a modern divided highway running smoothly through lush green Chilean countryside, peaceful river visible toward right beside road and dark forested hills. Distant snow-tipped Andes ridge at right horizon, pale blue sky, serene fresh early daylight. Highway enters bottom center and recedes center-right, a few realistic cars with accurate road geometry. Quiet darker greenery in left third reserved for white HTML title overlay, clear brighter scenic right side behind form overlay later. Same coherent realistic premium campaign style as Chilean highway aerial account login images. No lettering, UI, logos, watermarks, readable signs, people closeups or baked-in gradient. Decorative imagined Chilean landscape, no factual location claim."
+    }
+  ],
+  "processing": "Proportional downsizing and WebP format conversion only; original generated outputs preserved."
+}
