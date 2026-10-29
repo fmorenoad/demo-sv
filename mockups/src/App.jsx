@@ -4,6 +4,7 @@ import SiteHeader from './components/SiteHeader.jsx'
 import Footer from './components/Footer.jsx'
 import Chatbot from './components/Chatbot.jsx'
 import OvLayout from './components/OvLayout.jsx'
+import ServiceIcon from './components/ServiceIcon.jsx'
 
 import Inicio from './screens/public/Inicio.jsx'
 import Tarifas from './screens/public/Tarifas.jsx'
@@ -27,8 +28,8 @@ import MiCuenta from './screens/ov/MiCuenta.jsx'
 const PUBLIC = { inicio: Inicio, tarifas: Tarifas, ruta: EstadoRuta, tag: Tag, 'sin-tag': SinTag, ayuda: Ayuda, registro: Registro, recuperar: Recuperar }
 const OV = { 'ov/resumen': Resumen, 'ov/convenio': Convenio, 'ov/transitos': Transitos, 'ov/pagos': Pagos, 'ov/pagar': Pagar, 'ov/repactar': Repactar, 'ov/interacciones': Interacciones, 'ov/suscripciones': Suscripciones, 'ov/vehiculos': Vehiculos, 'ov/cuenta': MiCuenta }
 
-const PUBLIC_LIST = [['inicio', 'Inicio'], ['tarifas', 'Tarifas'], ['ruta', 'Estado de ruta'], ['tag', 'TAG'], ['sin-tag', 'Pasé sin TAG'], ['ayuda', 'Ayuda'], ['login', 'Login'], ['registro', 'Registro'], ['recuperar', 'Recuperar clave']]
-const OV_LIST = [['ov/resumen', 'Resumen'], ['ov/convenio', 'Convenio'], ['ov/transitos', 'Tránsitos'], ['ov/pagos', 'Pagos y documentos'], ['ov/pagar', 'Pagar'], ['ov/repactar', 'Repactar'], ['ov/vehiculos', 'Vehículos y TAG'], ['ov/interacciones', 'Interacciones'], ['ov/suscripciones', 'Suscripciones'], ['ov/cuenta', 'Mi cuenta']]
+const PUBLIC_LIST = [['inicio', 'Inicio', 'roadworks'], ['tarifas', 'Tarifas', 'calculator'], ['ruta', 'Estado de ruta', 'route'], ['tag', 'TAG', 'tag'], ['sin-tag', 'Pasé sin TAG', 'car'], ['ayuda', 'Ayuda', 'status'], ['login', 'Login', 'shield'], ['registro', 'Registro', 'account'], ['recuperar', 'Recuperar clave', 'shield']]
+const OV_LIST = [['ov/resumen', 'Resumen', 'status'], ['ov/convenio', 'Convenio', 'bill'], ['ov/transitos', 'Tránsitos', 'route'], ['ov/pagos', 'Pagos y documentos', 'bill'], ['ov/pagar', 'Pagar', 'payment'], ['ov/repactar', 'Repactar', 'calendar'], ['ov/vehiculos', 'Vehículos y TAG', 'car'], ['ov/interacciones', 'Interacciones', 'account'], ['ov/suscripciones', 'Suscripciones', 'calendar'], ['ov/cuenta', 'Mi cuenta', 'account']]
 
 export default function App() {
   const route = useHashRoute('inicio')
@@ -59,27 +60,31 @@ export default function App() {
   }
 
   return (
-    <>
-      <div className="switcher">
-        <span className="brand-tag">Propuesta digital</span>
-        <button className={!session ? 'active' : ''} onClick={demoPublic}>Sitio público</button>
-        <button className={session ? 'active' : ''} onClick={demoOv}>Oficina Virtual</button>
-        <button className="map-btn" onClick={() => setShowMap((s) => !s)} aria-expanded={showMap}>{showMap ? 'Ocultar mapa' : 'Mapa de pantallas'}</button>
-        <span className="hint">Demo Survías · datos de ejemplo</span>
+    <div className={'demo-app' + (route === 'inicio' ? ' home-demo' : '')}>
+      <div className="switcher" role="region" aria-label="Navegación de la propuesta">
+        <span className="brand-tag"><ServiceIcon type="route" />Propuesta digital</span>
+        <button type="button" className={!session ? 'active' : ''} onClick={demoPublic} aria-pressed={!session}><ServiceIcon type="map" /><span>Sitio público</span></button>
+        <button type="button" className={session ? 'active' : ''} onClick={demoOv} aria-pressed={session}><ServiceIcon type="shield" /><span>Oficina Virtual</span></button>
+        <button type="button" className="map-btn" onClick={() => setShowMap((s) => !s)} aria-expanded={showMap} aria-controls="proposal-screen-map"><ServiceIcon type="map" /><span>{showMap ? 'Ocultar mapa' : 'Mapa de pantallas'}</span></button>
+        <span className="hint"><ServiceIcon type="status" />Demo Survías · datos de ejemplo</span>
       </div>
-      {showMap && (
-        <div className="sitemap">
-          <div><div className="eyebrow">Sin sesión</div>{PUBLIC_LIST.map(([r, l]) => <a key={r} href={'#/' + r} className={route === r ? 'on' : ''} onClick={() => setSession(false)}>{l}</a>)}</div>
-          <div><div className="eyebrow">Con sesión</div>{OV_LIST.map(([r, l]) => <a key={r} href={'#/' + r} className={route === r ? 'on' : ''} onClick={() => setSession(true)}>{l}</a>)}</div>
-        </div>
-      )}
-      <div className="screen">
+      <div id="proposal-screen-map" className="sitemap" hidden={!showMap}>
+        <nav aria-labelledby="proposal-public-heading">
+          <h2 id="proposal-public-heading" className="eyebrow"><ServiceIcon type="account" />Sin sesión</h2>
+          <div className="sitemap-links">{PUBLIC_LIST.map(([r, label, icon]) => <a key={r} href={'#/' + r} className={route === r ? 'on' : ''} aria-current={route === r ? 'page' : undefined} onClick={() => setSession(false)}><ServiceIcon type={icon} /><span>{label}</span></a>)}</div>
+        </nav>
+        <nav aria-labelledby="proposal-private-heading">
+          <h2 id="proposal-private-heading" className="eyebrow"><ServiceIcon type="shield" />Con sesión</h2>
+          <div className="sitemap-links">{OV_LIST.map(([r, label, icon]) => <a key={r} href={'#/' + r} className={route === r ? 'on' : ''} aria-current={route === r ? 'page' : undefined} onClick={() => setSession(true)}><ServiceIcon type={icon} /><span>{label}</span></a>)}</div>
+        </nav>
+      </div>
+      <div className={'screen' + (route === 'inicio' ? ' home-shell' : '')}>
         <SiteHeader session={session && isOv} route={route} onLogout={logout} />
         {body}
         <Footer />
       </div>
       {route !== 'ayuda' && <Chatbot session={session && isOv} />}
-    </>
+    </div>
   )
 }
 
