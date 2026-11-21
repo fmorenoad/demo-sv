@@ -10,6 +10,7 @@ import './chatbot.css'
 import './tarifas.css'
 import './estado-ruta.css'
 import './sin-tag.css'
+import './ux-v2.css'
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>

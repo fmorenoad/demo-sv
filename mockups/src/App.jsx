@@ -5,6 +5,7 @@ import Footer from './components/Footer.jsx'
 import Chatbot from './components/Chatbot.jsx'
 import OvLayout from './components/OvLayout.jsx'
 import ServiceIcon from './components/ServiceIcon.jsx'
+import TabBar from './components/TabBar.jsx'
 
 import Inicio from './screens/public/Inicio.jsx'
 import Tarifas from './screens/public/Tarifas.jsx'
@@ -35,6 +36,33 @@ export default function App() {
   const route = useHashRoute('inicio')
   const [session, setSession] = useState(() => route.startsWith('ov/'))
   const [showMap, setShowMap] = useState(false)
+  // Propuesta UX v2: se puede comparar con la versión actual desde la barra de la demo.
+  const [ux2, setUx2] = useState(() => {
+    try { return window.localStorage.getItem('survias-ux') !== 'v1' } catch { return true }
+  })
+  useEffect(() => {
+    document.documentElement.classList.toggle('ux2', ux2)
+    try { window.localStorage.setItem('survias-ux', ux2 ? 'v2' : 'v1') } catch { /* sin almacenamiento: solo en memoria */ }
+  }, [ux2])
+
+  // Propuesta v2: el asistente se retira al bajar por la página y vuelve al subir.
+  useEffect(() => {
+    let last = window.scrollY
+    let frame = 0
+    const onScroll = () => {
+      if (frame) return
+      frame = requestAnimationFrame(() => {
+        frame = 0
+        const y = window.scrollY
+        if (Math.abs(y - last) < 12) return
+        document.documentElement.dataset.scroll = y > last && y > 120 ? 'down' : 'up'
+        last = y
+      })
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(frame); delete document.documentElement.dataset.scroll }
+  }, [])
+  useEffect(() => { document.documentElement.dataset.scroll = 'up' }, [route])
 
   const isOv = route.startsWith('ov/')
   useEffect(() => { if (isOv && !session) setSession(false) }, [isOv, session])
@@ -60,12 +88,15 @@ export default function App() {
   }
 
   return (
-    <div className={'demo-app' + (route === 'inicio' ? ' home-demo' : '')}>
+    <div className={'demo-app' + (route === 'inicio' ? ' home-demo' : '')} data-route={route} data-area={session && isOv ? 'ov' : 'public'}>
       <div className="switcher" role="region" aria-label="Navegación de la propuesta">
         <span className="brand-tag"><ServiceIcon type="route" />Propuesta digital</span>
         <button type="button" className={!session ? 'active' : ''} onClick={demoPublic} aria-pressed={!session}><ServiceIcon type="map" /><span>Sitio público</span></button>
         <button type="button" className={session ? 'active' : ''} onClick={demoOv} aria-pressed={session}><ServiceIcon type="shield" /><span>Oficina Virtual</span></button>
         <button type="button" className="map-btn" onClick={() => setShowMap((s) => !s)} aria-expanded={showMap} aria-controls="proposal-screen-map"><ServiceIcon type="map" /><span>{showMap ? 'Ocultar mapa' : 'Mapa de pantallas'}</span></button>
+        <button type="button" className={'ux-toggle' + (ux2 ? ' on' : '')} onClick={() => setUx2((v) => !v)} aria-pressed={ux2} title="Compara la propuesta de mejora con la versión actual">
+          <span className="ux-toggle-track" aria-hidden="true"><i /></span><span className="ux-toggle-long">{ux2 ? 'Propuesta v2' : 'Versión actual'}</span><span className="ux-toggle-short" aria-hidden="true">{ux2 ? 'v2' : 'v1'}</span>
+        </button>
         <span className="hint"><ServiceIcon type="status" />Demo Survías · datos de ejemplo</span>
       </div>
       <div id="proposal-screen-map" className="sitemap" hidden={!showMap}>
@@ -83,6 +114,7 @@ export default function App() {
         {body}
         <Footer />
       </div>
+      {ux2 && route !== 'login' && <TabBar area={session && isOv ? 'ov' : 'public'} route={route} onLogout={logout} />}
       {route !== 'ayuda' && <Chatbot session={session && isOv} />}
     </div>
   )

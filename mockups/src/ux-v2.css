@@ -1,0 +1,245 @@
+/* ============================================================
+   Propuesta UX v2 — mejoras de experiencia sobre el diseño actual.
+   Todo lo que sigue (salvo el interruptor y los elementos ocultos por
+   defecto) aplica solo cuando <html> tiene la clase .ux2, de modo que
+   la versión actual y la propuesta se comparan con un clic.
+
+   Criterios, medidos sobre la versión actual en un teléfono de 390 px:
+   1. La tarea primero: el formulario de "Pasé sin TAG" estaba a 1.240 px
+      y el simulador de tarifas a 1.464 px del inicio de la página.
+   2. Navegación al alcance del pulgar: barra inferior fija.
+   3. Datos legibles sin desplazamiento horizontal: tablas como tarjetas.
+   4. El total y la acción de pago siempre visibles.
+   ============================================================ */
+
+/* ---------- Elementos nuevos: ocultos en la versión actual ---------- */
+.tabbar, .tabbar-sheet-backdrop, .pay-sticky { display: none; }
+
+/* ---------- Interruptor de comparación (visible en ambas versiones) ---------- */
+.demo-app > .switcher .ux-toggle { gap: 8px; margin-left: 8px; border-style: dashed; }
+.demo-app > .switcher .ux-toggle.on { border-style: solid; border-color: #17212b; color: #fff; background: #17212b; }
+.demo-app > .switcher .ux-toggle.on:hover { color: #fff; background: #2a3541; border-color: #2a3541; }
+.ux-toggle-track { position: relative; flex: none; width: 30px; height: 18px; border-radius: 999px; background: #cfd6dc; transition: background .2s; }
+.ux-toggle-track i { position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff; transition: transform .2s; }
+.ux-toggle.on .ux-toggle-track { background: #ff0000; }
+.ux-toggle.on .ux-toggle-track i { transform: translateX(12px); }
+.ux-toggle-short { display: none; }
+@media (prefers-reduced-motion: reduce) { .ux-toggle-track, .ux-toggle-track i { transition: none; } }
+
+/* ============================================================
+   1 · Barra de la demo compacta (en teléfono ocupaba 197 px)
+   ============================================================ */
+@media (max-width: 620px) {
+  html.ux2 .demo-app > .switcher { flex-wrap: nowrap; gap: 6px; padding: 8px 12px; }
+  html.ux2 .demo-app > .switcher .brand-tag,
+  html.ux2 .demo-app > .switcher .hint { display: none; }
+  html.ux2 .demo-app > .switcher button { flex: 1 1 0; min-width: 0; min-height: 40px; padding: 6px 8px; border-radius: 10px; font-size: 12px; white-space: nowrap; }
+  html.ux2 .demo-app > .switcher button .service-icon { width: 18px; height: 18px; }
+  html.ux2 .demo-app > .switcher .map-btn { flex: 0 0 40px; margin-left: 0; border-color: #e1e5e9; }
+  html.ux2 .demo-app > .switcher .map-btn > span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  html.ux2 .demo-app > .switcher .ux-toggle { flex: 0 0 auto; margin-left: 0; padding-inline: 8px; }
+  html.ux2 .ux-toggle-long { display: none; }
+  html.ux2 .ux-toggle-short { display: inline; font-weight: 800; }
+}
+
+/* ============================================================
+   2 · Cabecera compacta y fija
+   ============================================================ */
+html.ux2 .demo-app .site-header { position: sticky; top: 0; backdrop-filter: saturate(1.4) blur(10px); background: rgba(255, 255, 255, .94); }
+html.ux2 .demo-app .site-header .bar { padding-block: 8px; }
+html.ux2 .demo-app .site-header .brand-logo { width: 84px; height: auto; }
+@media (min-width: 1200px) {
+  html.ux2 .demo-app .site-header .bar { min-height: 76px; padding-block: 8px; }
+  html.ux2 .demo-app .site-header .brand-logo { width: 108px; }
+  /* En la Oficina Virtual el menú lateral ya navega: se quita el menú superior duplicado. */
+  html.ux2 .demo-app[data-area='ov'] .site-menu-panel .nav { display: none; }
+}
+
+/* ============================================================
+   3 · La tarea primero: encabezados de sección compactos
+   ============================================================ */
+html.ux2 .demo-app { --section-hero-min-height: 0px; }
+html.ux2 .tarifas-hero, html.ux2 .ruta-hero, html.ux2 .tag-hero, html.ux2 .sin-tag-hero, html.ux2 .ayuda-hero { min-height: 0; }
+html.ux2 .tarifas-hero h1, html.ux2 .ruta-hero h1, html.ux2 .tag-hero h1, html.ux2 .sin-tag-hero h1, html.ux2 .ayuda-hero h1 { font-size: clamp(28px, 4.4vw, 44px); line-height: 1.08; letter-spacing: -.035em; }
+html.ux2 .tarifas-hero-content { padding-block: 18px 24px; }
+html.ux2 .tarifas-kicker { margin-top: 14px; }
+html.ux2 .tarifas-meta { margin-top: 16px; }
+html.ux2 .ruta-hero-content, html.ux2 .sin-tag-hero-copy { padding-block: 26px; }
+html.ux2 .tag-hero-content, html.ux2 .ayuda-hero-content { min-height: 0; padding-block: 26px; }
+html.ux2 .tag-hero-mark { margin-bottom: 10px; }
+html.ux2 .tag-hero-mark .service-icon { width: 40px; height: 40px; }
+html.ux2 .ayuda-hero-copy > .service-icon { width: 40px; height: 40px; margin-bottom: 10px; }
+html.ux2 .tarifas-lead, html.ux2 .ruta-hero p, html.ux2 .sin-tag-hero p { margin-top: 6px; font-size: 15px; line-height: 1.55; }
+
+@media (max-width: 700px) {
+  html.ux2 .tarifas-meta, html.ux2 .tarifas-breadcrumb, html.ux2 .tag-hero-mark, html.ux2 .ayuda-hero-copy > .service-icon { display: none; }
+  html.ux2 .tarifas-kicker { margin-top: 0; }
+  html.ux2 .tarifas-hero-content, html.ux2 .ruta-hero-content, html.ux2 .sin-tag-hero-copy, html.ux2 .tag-hero-content, html.ux2 .ayuda-hero-content { padding-block: 18px; }
+}
+
+/* ============================================================
+   4 · Barra de navegación inferior (teléfono y tableta)
+   ============================================================ */
+@media (max-width: 1099px) {
+  html.ux2 .demo-app { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
+  html.ux2 .tabbar {
+    position: fixed; inset: auto 0 0 0; z-index: 58;
+    display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
+    padding: 4px 6px calc(4px + env(safe-area-inset-bottom));
+    border-top: 1px solid #e3e7ea; background: rgba(255, 255, 255, .97); backdrop-filter: saturate(1.4) blur(12px);
+    box-shadow: 0 -8px 24px rgba(23, 33, 43, .06);
+    font-family: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+  }
+  html.ux2 .tabbar a, html.ux2 .tabbar button {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+    min-height: 56px; padding: 6px 2px; border: 0; border-radius: 10px;
+    color: #5d6a75; background: transparent; font: inherit; font-size: 11px; font-weight: 700; line-height: 1.2; text-decoration: none; cursor: pointer;
+  }
+  html.ux2 .tabbar .service-icon { width: 24px; height: 24px; color: currentColor; }
+  html.ux2 .tabbar .service-icon-accent { stroke: currentColor; }
+  html.ux2 .tabbar a.active, html.ux2 .tabbar button.active { color: #e00000; background: #fff1f1; }
+  html.ux2 .tabbar a:focus-visible, html.ux2 .tabbar button:focus-visible { outline: 3px solid #d90000; outline-offset: -3px; }
+  html.ux2 .tabbar-dots { display: flex; gap: 4px; align-items: center; height: 24px; }
+  html.ux2 .tabbar-dots i { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+  /* En la Oficina Virtual, "Pagar" es la acción principal. */
+  html.ux2 .tabbar-ov a[href$='ov/pagar'] { color: #fff; background: #ff0000; box-shadow: 0 6px 16px rgba(255, 0, 0, .22); }
+  html.ux2 .tabbar-ov a[href$='ov/pagar'] .service-icon { color: #fff; }
+
+  /* Hoja "Más" */
+  html.ux2 .tabbar-sheet-backdrop { position: fixed; inset: 0; z-index: 57; display: flex; align-items: flex-end; background: rgba(23, 33, 43, .42); animation: ux2-fade .18s ease; }
+  html.ux2 .tabbar-sheet {
+    width: 100%; max-height: 80dvh; overflow: auto; padding: 8px 16px calc(84px + env(safe-area-inset-bottom));
+    border-radius: 18px 18px 0 0; background: #fff; font-family: 'Manrope', 'Segoe UI', system-ui, sans-serif; animation: ux2-rise .22s cubic-bezier(.22, 1, .36, 1);
+  }
+  html.ux2 .tabbar-sheet-grip { width: 40px; height: 4px; margin: 4px auto 10px; border-radius: 4px; background: #d9dee3; }
+  html.ux2 .tabbar-sheet nav { display: grid; }
+  html.ux2 .tabbar-sheet nav a { display: flex; align-items: center; gap: 12px; min-height: 54px; padding: 10px 4px; border-bottom: 1px solid #edf0f2; color: #34424e; font-size: 15px; font-weight: 700; text-decoration: none; }
+  html.ux2 .tabbar-sheet nav a.active { color: #e00000; }
+  html.ux2 .tabbar-sheet .service-icon { width: 26px; height: 26px; color: #75838e; }
+  html.ux2 .tabbar-sheet .service-icon-accent { stroke: #ff0000; }
+  html.ux2 .tabbar-sheet-arrow { margin-left: auto; color: #9ba6ae; font-size: 22px; }
+  html.ux2 .tabbar-sheet-logout { width: 100%; min-height: 48px; margin-top: 14px; border: 1px solid #dce3e8; border-radius: 10px; color: #3e4b57; background: #fff; font: inherit; font-size: 14px; font-weight: 800; cursor: pointer; }
+
+  /* El asistente sube sobre la barra y reduce su tamaño para no tapar acciones. */
+  html.ux2 .chat-fab { bottom: calc(76px + env(safe-area-inset-bottom)); width: 50px; height: 50px; min-height: 50px; box-shadow: 0 8px 22px rgba(255, 0, 0, .26); }
+  html.ux2 .chat-float { bottom: calc(136px + env(safe-area-inset-bottom)); max-height: calc(100dvh - 156px - env(safe-area-inset-bottom)); }
+  html.ux2 .chat-float .chat-window { max-height: calc(100dvh - 156px - env(safe-area-inset-bottom)); }
+  html.ux2 .chat-fab { transition: transform .25s cubic-bezier(.22, 1, .36, 1), opacity .2s ease; }
+  /* Se retira al bajar por la página o al escribir en un formulario; vuelve al subir. */
+  html.ux2[data-scroll='down'] .chat-fab[aria-expanded='false'],
+  html.ux2 .demo-app:has(main input:focus, main select:focus, main textarea:focus) .chat-fab[aria-expanded='false'] { transform: translateY(160%); opacity: 0; pointer-events: none; }
+  /* En el flujo de pago y con la hoja "Más" abierta se oculta: la acción principal tiene prioridad. */
+  html.ux2 .demo-app[data-route='ov/pagar'] .chat-fab,
+  html.ux2 .demo-app:has(.tabbar-sheet-backdrop) .chat-fab { display: none; }
+}
+@keyframes ux2-fade { from { opacity: 0; } }
+@keyframes ux2-rise { from { transform: translateY(24px); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { html.ux2 .tabbar-sheet-backdrop, html.ux2 .tabbar-sheet { animation: none; } }
+
+/* ============================================================
+   5 · Oficina Virtual en teléfono: el contenido primero
+   ============================================================ */
+@media (max-width: 1099px) {
+  html.ux2 .demo-app .ov-layout { gap: 14px; margin-top: 14px; }
+  html.ux2 .ov-layout .side-toggle, html.ux2 .ov-layout .side-menu { display: none; }
+  /* Selector de convenio en una sola línea */
+  html.ux2 .ov-layout .side-card { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 10px; box-shadow: none; }
+  html.ux2 .ov-layout .side-card > div { display: none; }
+  html.ux2 .ov-layout .side-card label { margin: 0 !important; white-space: nowrap; font-size: 12px; }
+  html.ux2 .ov-layout .side-card .input { flex: 1; min-width: 0; height: 40px; border-color: transparent; background: #f5f7f8; font-weight: 700; }
+}
+
+/* ============================================================
+   6 · Tablas como tarjetas en teléfono (sin desplazamiento horizontal)
+   ============================================================ */
+@media (max-width: 700px) {
+  /* Resumen: tablas pequeñas que caben en pantalla */
+  html.ux2 .ov-dashboard .table { min-width: 0; }
+  html.ux2 .ov-dashboard .table th, html.ux2 .ov-dashboard .table td { padding: 12px 10px; }
+  html.ux2 .ov-table-row .card:nth-child(2) .table th:nth-child(3),
+  html.ux2 .ov-table-row .card:nth-child(2) .table td:nth-child(3) { display: none; }
+
+  /* Tránsitos */
+  html.ux2 .demo-app[data-route='ov/transitos'] .table-scroll { overflow: visible; }
+  html.ux2 .demo-app[data-route='ov/transitos'] .table-scroll .table { display: block; min-width: 0; width: 100%; }
+  html.ux2 .demo-app[data-route='ov/transitos'] .table-scroll thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  html.ux2 .demo-app[data-route='ov/transitos'] .table-scroll tbody { display: grid; gap: 10px; padding: 12px; }
+  html.ux2 .demo-app[data-route='ov/transitos'] .table-scroll tbody tr {
+    display: grid; grid-template-columns: auto auto 1fr auto; gap: 4px 8px; align-items: center;
+    grid-template-areas: 'pat pat pat monto' 'por por por est' 'fec hor cat cat';
+    padding: 14px; border: 1px solid #e3e9ed; border-radius: 12px; background: #fff;
+  }
+  html.ux2 .demo-app[data-route='ov/transitos'] .table-scroll tbody td { display: block; padding: 0; border: 0; color: #6b7783; background: transparent; font-size: 12px; }
+  html.ux2 .demo-app[data-route='ov/transitos'] .table-scroll tbody td:nth-child(1) { grid-area: pat; font-size: 15px; }
+  html.ux2 .demo-app[data-route='ov/transitos'] .table-scroll tbody td:nth-child(2) { grid-area: fec; }
+  html.ux2 .demo-app[data-route='ov/transitos'] .table-scroll tbody td:nth-child(3) { grid-area: hor; }
+  html.ux2 .demo-app[data-route='ov/transitos'] .table-scroll tbody td:nth-child(4) { grid-area: por; color: #34424e; font-size: 14px; font-weight: 600; }
+  html.ux2 .demo-app[data-route='ov/transitos'] .table-scroll tbody td:nth-child(5) { grid-area: cat; }
+  html.ux2 .demo-app[data-route='ov/transitos'] .table-scroll tbody td:nth-child(6) { grid-area: est; justify-self: end; }
+  html.ux2 .demo-app[data-route='ov/transitos'] .table-scroll tbody td:nth-child(7) { grid-area: monto; color: #17212b; font-size: 17px; font-weight: 800; text-align: right; }
+  html.ux2 .demo-app[data-route='ov/transitos'] .table-scroll tbody td[colspan] { grid-column: 1 / -1; }
+  html.ux2 .demo-app[data-route='ov/transitos'] .table-scroll tfoot { display: block; }
+  html.ux2 .demo-app[data-route='ov/transitos'] .table-scroll tfoot tr { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-top: 1px solid #e7ecef; }
+  html.ux2 .demo-app[data-route='ov/transitos'] .table-scroll tfoot td { display: block; padding: 0; border: 0; }
+
+  /* Documentos */
+  html.ux2 .pagos-table-scroll { overflow: visible; }
+  html.ux2 .pagos-table-scroll .table { display: block; min-width: 0; width: 100%; }
+  html.ux2 .pagos-table-scroll thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  html.ux2 .pagos-table-scroll tbody { display: grid; gap: 10px; padding: 12px; }
+  html.ux2 .pagos-table-scroll tbody tr {
+    display: grid; grid-template-columns: auto 1fr auto; gap: 6px 10px; align-items: center;
+    grid-template-areas: 'doc doc monto' 'nro emi emi' 'est est dl' 'medio medio dl';
+    padding: 14px; border: 1px solid #e3e9ed; border-radius: 12px; background: #fff;
+  }
+  html.ux2 .pagos-table-scroll tbody td { display: block; padding: 0; border: 0; color: #6b7783; background: transparent; font-size: 12px; text-align: left; }
+  html.ux2 .pagos-table-scroll tbody td:nth-child(1) { grid-area: doc; color: #34424e; font-size: 14px; }
+  html.ux2 .pagos-table-scroll tbody td:nth-child(1) .pagos-document-type { display: none; }
+  html.ux2 .pagos-table-scroll tbody td:nth-child(2) { grid-area: nro; }
+  html.ux2 .pagos-table-scroll tbody td:nth-child(2)::before { content: 'N° '; }
+  html.ux2 .pagos-table-scroll tbody td:nth-child(3) { grid-area: emi; }
+  html.ux2 .pagos-table-scroll tbody td:nth-child(3)::before { content: '· emitido el '; }
+  html.ux2 .pagos-table-scroll tbody td:nth-child(4) { grid-area: monto; color: #17212b; font-size: 17px; font-weight: 800; text-align: right; }
+  html.ux2 .pagos-table-scroll tbody td:nth-child(5) { grid-area: est; }
+  html.ux2 .pagos-table-scroll tbody td:nth-child(6) { grid-area: medio; }
+  html.ux2 .pagos-table-scroll tbody td:nth-child(7) { grid-area: dl; justify-self: end; align-self: center; }
+}
+
+/* ============================================================
+   7 · Pago: total y acción siempre visibles en teléfono
+   ============================================================ */
+@media (max-width: 1099px) {
+  html.ux2 .pay-sticky {
+    position: fixed; inset: auto 0 calc(64px + env(safe-area-inset-bottom)) 0; z-index: 56;
+    display: flex; align-items: center; justify-content: space-between; gap: 14px;
+    padding: 10px 16px; border-top: 1px solid #e3e7ea; background: rgba(255, 255, 255, .98);
+    box-shadow: 0 -10px 26px rgba(23, 33, 43, .08); font-family: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+  }
+  html.ux2 .pay-sticky-label { display: block; color: #6b7783; font-size: 12px; font-weight: 600; }
+  html.ux2 .pay-sticky strong { color: #17212b; font-size: 22px; font-weight: 800; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+  html.ux2 .pay-sticky .btn { min-height: 48px; padding: 12px 22px; border-radius: 10px; font-size: 15px; font-weight: 800; white-space: nowrap; }
+  html.ux2 .demo-app[data-route='ov/pagar'] { padding-bottom: calc(150px + env(safe-area-inset-bottom)); }
+}
+
+/* ============================================================
+   8 · Inicio en teléfono: accesos compactos y orden por utilidad
+   ============================================================ */
+@media (max-width: 700px) {
+  html.ux2 .home { display: flex; flex-direction: column; }
+  html.ux2 .home > .official-updates { order: 2; }
+  html.ux2 .home > .home-container:last-child { order: 3; }
+
+  html.ux2 .customer-service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  html.ux2 .customer-service { min-height: 0; padding: 14px 12px; gap: 6px; }
+  html.ux2 .customer-service > p, html.ux2 .customer-service .service-action { display: none; }
+  html.ux2 .customer-service h3 { margin: 6px 0 0; font-size: 14px; line-height: 1.3; }
+  html.ux2 .customer-service .service-icon { width: 30px; height: 30px; }
+
+  html.ux2 .service-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  html.ux2 .service-link { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 4px 12px; min-height: 0; padding: 14px; }
+  html.ux2 .service-link .online-service-heading { grid-row: 1 / span 2; margin: 0; }
+  html.ux2 .service-link h3 { margin: 0; font-size: 15px; }
+  html.ux2 .service-link > p { grid-column: 2; margin: 0; font-size: 12px; line-height: 1.45; }
+  html.ux2 .service-link .service-action { grid-column: 3; grid-row: 1 / span 2; margin: 0; font-size: 0; }
+  html.ux2 .service-link .service-action > span { font-size: 20px; }
+}

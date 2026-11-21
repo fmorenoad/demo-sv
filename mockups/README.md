@@ -41,6 +41,26 @@ de cifras superpuesta, galería en grilla, testimonios con miniatura de video,
 tarjetas de servicio con precio, bloque de cierre y pie oscuro. Tipografía Plus
 Jakarta Sans; paleta Survías. Código en `src/landing2/`.
 
+## Propuesta UX v2
+
+Mejora de experiencia sobre el diseño actual, comparable en vivo con el interruptor
+**"Propuesta v2 / Versión actual"** de la barra de la demo (la elección se recuerda en
+el navegador). Todo vive en `src/ux-v2.css`, con reglas bajo `html.ux2`, más
+`src/components/TabBar.jsx` y una barra fija de pago en `Pagar.jsx`.
+
+| Medición en teléfono (390 px) | Actual | Propuesta |
+|---|---|---|
+| Barra de la demo | 197 px | 57 px |
+| Cabecera | 90 px | 69 px, fija |
+| Primer campo de Pasé sin TAG | 1.240 px | 535 px |
+| Simulador de Tarifas | 1.464 px | 474 px |
+| Contenido de la Oficina Virtual | 567 px | 212 px |
+
+Qué cambia: encabezados de sección compactos (la tarea primero), cabecera fija,
+navegación inferior en teléfono con hoja "Más", tablas de tránsitos y boletas como
+tarjetas, total y acción de pago siempre visibles, asistente que se retira al bajar o
+escribir, y menú superior duplicado eliminado en la Oficina Virtual de escritorio.
+
 ## Correr el proyecto
 
 ```bash

@@ -125,6 +125,15 @@ export default function Pagar() {
         </Card>
       )}
 
+      {step < 4 && (
+        <div className="pay-sticky" role="region" aria-label="Resumen del pago">
+          <div><span className="pay-sticky-label">{chosen.length} {chosen.length === 1 ? 'tránsito' : 'tránsitos'} · Total</span><strong>{clp(total)}</strong></div>
+          <button className="btn primary" disabled={!chosen.length} onClick={() => { setStep(step + 1); window.scrollTo({ top: 0 }) }}>
+            {step === 1 ? 'Continuar' : step === 2 ? 'Confirmar' : 'Pagar ' + clp(total)}
+          </button>
+        </div>
+      )}
+
       <MockNote><strong>Mockup del flujo de pago / autofacturación.</strong> Interactivo para la demo; la pasarela real es un paso posterior.</MockNote>
     </Page>
   )
