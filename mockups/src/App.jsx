@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useHashRoute, go } from './router.jsx'
 import SiteHeader from './components/SiteHeader.jsx'
 import Footer from './components/Footer.jsx'
@@ -13,7 +13,8 @@ import EstadoRuta from './screens/public/EstadoRuta.jsx'
 import Tag from './screens/public/Tag.jsx'
 import SinTag from './screens/public/SinTag.jsx'
 import Ayuda from './screens/public/Ayuda.jsx'
-import { Login, Registro, Recuperar } from './screens/public/Acceso.jsx'
+import { Registro, Recuperar } from './screens/public/Acceso.jsx'
+import LoginScreen from './screens/public/LoginVariants.jsx'
 
 import Resumen from './screens/ov/Resumen.jsx'
 import Convenio from './screens/ov/Convenio.jsx'
@@ -73,11 +74,17 @@ export default function App() {
   const demoOv = () => { setSession(true); go('ov/resumen') }
 
   let body
-  if (route === 'login') {
-    body = <Login onLogin={login} />
+  const isLogin = route === 'login' || route.startsWith('login/')
+  // Pantallas de acceso: sin menú, con un botón para volver a la última página pública visitada.
+  const isAccess = isLogin || route === 'registro' || route === 'recuperar' || (isOv && !session)
+  const lastPublic = useRef('inicio')
+  useEffect(() => { if (!isAccess && !isOv) lastPublic.current = route }, [route, isAccess, isOv])
+  const goBack = () => go(isLogin || (isOv && !session) ? lastPublic.current : 'login')
+  if (isLogin) {
+    body = <LoginScreen route={route} onLogin={login} />
   } else if (isOv) {
     if (!session) {
-      body = <Login onLogin={login} notice="Inicia sesión para entrar a la Oficina Virtual." />
+      body = <LoginScreen route={route} onLogin={login} notice="Inicia sesión para entrar a la Oficina Virtual." />
     } else {
       const Screen = OV[route] || Resumen
       body = <OvLayout route={route}><Screen /></OvLayout>
@@ -110,11 +117,11 @@ export default function App() {
         </nav>
       </div>
       <div className={'screen' + (route === 'inicio' ? ' home-shell' : '')}>
-        <SiteHeader session={session && isOv} route={route} onLogout={logout} />
+        <SiteHeader session={session && isOv} route={route} onLogout={logout} minimal={isAccess} onBack={goBack} />
         {body}
         <Footer />
       </div>
-      {ux2 && route !== 'login' && <TabBar area={session && isOv ? 'ov' : 'public'} route={route} onLogout={logout} />}
+      {ux2 && !isAccess && <TabBar area={session && isOv ? 'ov' : 'public'} route={route} onLogout={logout} />}
       {route !== 'ayuda' && <Chatbot session={session && isOv} />}
     </div>
   )

@@ -128,8 +128,9 @@ html.ux2 .tarifas-lead, html.ux2 .ruta-hero p, html.ux2 .sin-tag-hero p { margin
   /* Se retira al bajar por la página o al escribir en un formulario; vuelve al subir. */
   html.ux2[data-scroll='down'] .chat-fab[aria-expanded='false'],
   html.ux2 .demo-app:has(main input:focus, main select:focus, main textarea:focus) .chat-fab[aria-expanded='false'] { transform: translateY(160%); opacity: 0; pointer-events: none; }
-  /* En el flujo de pago y con la hoja "Más" abierta se oculta: la acción principal tiene prioridad. */
+  /* En el ingreso, en el flujo de pago y con la hoja "Más" abierta se oculta: la acción principal tiene prioridad. */
   html.ux2 .demo-app[data-route='ov/pagar'] .chat-fab,
+  html.ux2 .demo-app[data-route^='login'] .chat-fab,
   html.ux2 .demo-app:has(.tabbar-sheet-backdrop) .chat-fab { display: none; }
 }
 @keyframes ux2-fade { from { opacity: 0; } }

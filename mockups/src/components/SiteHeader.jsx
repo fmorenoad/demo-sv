@@ -28,7 +28,7 @@ function Logo() {
 }
 
 // Cabecera del sitio. `session` cambia la navegación y las acciones de la derecha.
-export default function SiteHeader({ session, route, onLogout }) {
+export default function SiteHeader({ session, route, onLogout, minimal = false, onBack }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const menuButton = useRef(null)
   const nav = session ? PRIVATE_NAV : PUBLIC_NAV
@@ -62,6 +62,22 @@ export default function SiteHeader({ session, route, onLogout }) {
       <a href={href('login')} className="btn primary sm" onClick={() => setMenuOpen(false)}>Oficina Virtual</a>
     </>}
   </div>
+
+  // En el ingreso, registro y recuperación no hay menú: solo volver y el logo.
+  if (minimal) {
+    return (
+      <header className="site-header site-header-minimal">
+        <div className="bar">
+          <button type="button" className="header-back" onClick={onBack}>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" /></svg>
+            <span>Volver</span>
+          </button>
+          <Logo />
+          <span aria-hidden="true" />
+        </div>
+      </header>
+    )
+  }
 
   return (
     <header className="site-header">
